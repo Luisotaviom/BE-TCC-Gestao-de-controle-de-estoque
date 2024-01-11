@@ -17,15 +17,6 @@ create table Biblioteca
     nome varchar
 );
 
--- changeset Luisotaviom:criar-usuario
-create table Cadastros
-(
-    id_user int primary key auto_increment,
-    nome varchar,
-    email varchar,
-    senha varchar
-);
-
 -- changeset Luisotaviom:inserir-livros
 INSERT INTO Livro (titulo, categoria, anopubli, autor, isbn) VALUES
  ('A Máquina do Tempo', 'Ficção Científica', 1895, 'H.G. Wells', 9788563560235),
