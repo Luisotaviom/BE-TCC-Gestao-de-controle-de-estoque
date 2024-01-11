@@ -18,7 +18,6 @@ import NovaBiblioteca from "./componentes/NovaBiblioteca";
 
 
 //componentes BibliotecaGerency
-import ListaDeBibliotecaGerency from "./componentes/ListaBibliotecaGerency";
 import BibliotecaGerency from "./componentes/ListaLivrosNaBiblioteca";
 import CriarVinculo from "./componentes/Vinculo";
 
@@ -43,7 +42,7 @@ function App() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/BibliotecaGerency"} className="nav-link">
+            <Link to={"/Gerency"} className="nav-link">
               Biblioteca Gerencia
             </Link>
           </li>
@@ -54,8 +53,7 @@ function App() {
         <Switch>
           <Route exact path={["/", "/Livros"]} component={ListaDeLivros} />
           <Route exact path={["/", "/Bibliotecas"]} component={ListaDeBibliotecas} />
-          <Route exact path={["/", "/BibliotecaGerency"]} component={ListaDeBibliotecaGerency} />
-          <Route exact path={["/", "/BibliotecaGerency/livrosDaBiblioteca/:id"]} component={BibliotecaGerency} />          
+          <Route exact path={["/", "/Gerency/ProdutosDoFornecedor/:id"]} component={BibliotecaGerency} />          
 
           <Route path="/Livros/:id" component={Livro} />
           <Route path="/Bibliotecas/:id" component={Biblioteca} />      
