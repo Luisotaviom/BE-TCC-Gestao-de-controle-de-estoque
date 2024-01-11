@@ -1,7 +1,7 @@
 import http from "../http-common";
 
 const getAll5 = (id, params) => {
-  return http.get(`/BibliotecaGerency/livrosDaBiblioteca/${id}`, { params });
+  return http.get(`/Gerency/ProdutosDoFornecedor/${id}`, { params });
 };
 
 const getLivroTitulo = (titulo) => {

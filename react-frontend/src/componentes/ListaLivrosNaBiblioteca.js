@@ -66,16 +66,28 @@ const ListaLivrosDasBiblio = (props) => {
   const columns = useMemo(
     () => [
       {
-        Header: "nome Biblioteca",
-        accessor: "nomeBiblioteca",
+        Header: "Nome Fornecedor",
+        accessor: "nomeFornecedor",
       },
       {
-        Header: "titulo Livro",
-        accessor: "tituloLivro",
+        Header: "Nome produto",
+        accessor: "nomeProduto",
       },
       {
-        Header: "codigo isbn",
-        accessor: "codigoisbn",
+        Header: "Marca",
+        accessor: "marca",
+      },
+      {
+        Header: "Peso",
+        accessor: "peso",
+      },
+      {
+        Header: "Preco custo",
+        accessor: "preco_custo",
+      },
+      {
+        Header: "Preco venda",
+        accessor: "preco_venda",
       },
     ],
     []

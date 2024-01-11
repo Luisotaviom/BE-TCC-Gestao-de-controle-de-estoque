@@ -90,28 +90,24 @@ const ListaDeLivros = (props) => {
   const columns = useMemo(
     () => [
       {
-        Header: "Id",
-        accessor: "id",
+        Header: "Nome",
+        accessor: "nome",
       },
       {
-        Header: "Titulo",
-        accessor: "titulo",
+        Header: "Marca",
+        accessor: "marca",
       },
       {
-        Header: "Categoria",
-        accessor: "categoria",
+        Header: "Peso",
+        accessor: "peso",
       },
       {
-        Header: "Anopubli",
-        accessor: "anopubli",
+        Header: "Preco custo",
+        accessor: "preco_custo",
       },
       {
-        Header: "Autor",
-        accessor: "autor",
-      },
-      {
-        Header: "ISBN",
-        accessor: "isbn",
+        Header: "Preco venda",
+        accessor: "preco_venda",
       },
       {
         Header: "Ações",

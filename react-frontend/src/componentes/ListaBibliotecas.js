@@ -60,7 +60,7 @@ const ListaDeBibliotecas = (props) => {
   const openBiblioLivros = (rowIndex) => {
     const id = biblioRef.current[rowIndex].id;
 
-    props.history.push("/BibliotecaGerency/livrosDaBiblioteca/" + id);
+    props.history.push("/Gerency/ProdutosDoFornecedor/" + id);
   };
 
 
@@ -95,12 +95,20 @@ const ListaDeBibliotecas = (props) => {
   const columns = useMemo(
     () => [
       {
-        Header: "Id",
-        accessor: "id",
-      },
-      {
         Header: "Nome",
         accessor: "nome",
+      },
+      {
+        Header: "Cidade",
+        accessor: "cidade",
+      },
+      {
+        Header: "Email",
+        accessor: "email",
+      },
+      {
+        Header: "Celular",
+        accessor: "celular",
       },
       {
         Header: "Ações",
@@ -119,7 +127,7 @@ const ListaDeBibliotecas = (props) => {
               </span>
               &nbsp;
               <span onClick={() => openBiblioLivros(rowIdx)}>
-                <button type="button" className="btn btn-success btn-sm">Ver livros</button>
+                <button type="button" className="btn btn-success btn-sm">Ver produtos</button>
               </span>
             </div>
           );
@@ -209,7 +217,7 @@ const ListaDeBibliotecas = (props) => {
           </select>
           <div className="mt-3">
             <button type="button" className="btn btn-success" onClick={() => props.history.push("/NovaBiblioteca")}>
-            Adicionar biblioteca
+            Adicionar fornecedor
             </button>
           </div>
 
