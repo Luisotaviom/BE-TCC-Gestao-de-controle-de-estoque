@@ -1,4 +1,4 @@
-package br.unisc.biblioteca.BiblioGerency.DTOs;
+package br.unisc.biblioteca.Gerency.DTOs;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

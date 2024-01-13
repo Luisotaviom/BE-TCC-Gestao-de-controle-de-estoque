@@ -1,6 +1,6 @@
-package br.unisc.biblioteca.Biblioteca.Banco;
+package br.unisc.biblioteca.Fornecedor.Banco;
 
-import br.unisc.biblioteca.Biblioteca.DTOs.FornecedorDTO;
+import br.unisc.biblioteca.Fornecedor.DTOs.FornecedorDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

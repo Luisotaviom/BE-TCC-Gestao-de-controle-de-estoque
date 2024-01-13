@@ -1,8 +1,8 @@
-package br.unisc.biblioteca.Produto_1.Persistence;
+package br.unisc.biblioteca.Produto.Persistence;
 
-import br.unisc.biblioteca.Produto_1.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto_1.Banco.ProdutoEntity;
-import br.unisc.biblioteca.Produto_1.Repository.ProdutoRepository;
+import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
+import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
+import br.unisc.biblioteca.Produto.Repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

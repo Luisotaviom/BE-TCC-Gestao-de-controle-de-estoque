@@ -1,4 +1,4 @@
-package br.unisc.biblioteca.Biblioteca.DTOs;
+package br.unisc.biblioteca.Fornecedor.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

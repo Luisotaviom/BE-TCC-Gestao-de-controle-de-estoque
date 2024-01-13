@@ -1,6 +1,6 @@
-package br.unisc.biblioteca.BiblioGerency.Repository;
+package br.unisc.biblioteca.Gerency.Repository;
 
-import br.unisc.biblioteca.BiblioGerency.Banco.GerenciaEntity;
+import br.unisc.biblioteca.Gerency.Banco.GerenciaEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

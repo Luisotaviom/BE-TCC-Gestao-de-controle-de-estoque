@@ -1,6 +1,6 @@
-package br.unisc.biblioteca.Biblioteca.Persistence;
+package br.unisc.biblioteca.Fornecedor.Persistence;
 
-import br.unisc.biblioteca.Biblioteca.DTOs.FornecedorDTO;
+import br.unisc.biblioteca.Fornecedor.DTOs.FornecedorDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

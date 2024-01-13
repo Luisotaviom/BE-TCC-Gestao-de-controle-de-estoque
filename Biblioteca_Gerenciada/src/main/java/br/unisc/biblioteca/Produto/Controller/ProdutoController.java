@@ -1,7 +1,7 @@
-package br.unisc.biblioteca.Produto_1.Controller;
+package br.unisc.biblioteca.Produto.Controller;
 
-import br.unisc.biblioteca.Produto_1.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto_1.Service.ProdutoService;
+import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
+import br.unisc.biblioteca.Produto.Service.ProdutoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,9 +1,9 @@
-package br.unisc.biblioteca.BiblioGerency.Banco;
+package br.unisc.biblioteca.Gerency.Banco;
 
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO2;
-import br.unisc.biblioteca.BiblioGerency.DTOs.ProdutoEncontradoFornecedorDTO;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO2;
+import br.unisc.biblioteca.Gerency.DTOs.ProdutoEncontradoFornecedorDTO;
 import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
-import br.unisc.biblioteca.Livro.Banco.ProdutoEntity;
+import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

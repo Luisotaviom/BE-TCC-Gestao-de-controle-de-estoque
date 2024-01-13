@@ -1,7 +1,7 @@
-package br.unisc.biblioteca.Biblioteca.Controller;
+package br.unisc.biblioteca.Fornecedor.Controller;
 
-import br.unisc.biblioteca.Biblioteca.DTOs.FornecedorDTO;
-import br.unisc.biblioteca.Biblioteca.Service.FornecedorService;
+import br.unisc.biblioteca.Fornecedor.DTOs.FornecedorDTO;
+import br.unisc.biblioteca.Fornecedor.Service.FornecedorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

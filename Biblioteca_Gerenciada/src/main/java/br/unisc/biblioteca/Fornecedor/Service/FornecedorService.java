@@ -1,7 +1,7 @@
-package br.unisc.biblioteca.Biblioteca.Service;
+package br.unisc.biblioteca.Fornecedor.Service;
 
-import br.unisc.biblioteca.Biblioteca.DTOs.FornecedorDTO;
-import br.unisc.biblioteca.Biblioteca.Persistence.FornecedorPersistence;
+import br.unisc.biblioteca.Fornecedor.DTOs.FornecedorDTO;
+import br.unisc.biblioteca.Fornecedor.Persistence.FornecedorPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
