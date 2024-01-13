@@ -1,14 +1,14 @@
-package br.unisc.biblioteca.BiblioGerency.Persistence;
+package br.unisc.biblioteca.Gerency.Persistence;
 
-import br.unisc.biblioteca.BiblioGerency.Banco.GerenciaEntity;
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO2;
-import br.unisc.biblioteca.BiblioGerency.DTOs.ProdutoEncontradoFornecedorDTO;
-import br.unisc.biblioteca.BiblioGerency.Repository.GerencyRepository;
+import br.unisc.biblioteca.Gerency.Banco.GerenciaEntity;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO2;
+import br.unisc.biblioteca.Gerency.DTOs.ProdutoEncontradoFornecedorDTO;
+import br.unisc.biblioteca.Gerency.Repository.GerencyRepository;
 import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO;
 import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
-import br.unisc.biblioteca.Livro.Banco.ProdutoEntity;
-import br.unisc.biblioteca.Livro.Repository.ProdutoRepository;
+import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
+import br.unisc.biblioteca.Produto.Repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GerencyPersistenceAdapter implements GerencyPersistence {
+public class GerencyPersistenceAdapter implements br.unisc.biblioteca.Gerency.Persistence.GerencyPersistence {
 
     private final FornecedorRepository fornecedorRepository;
     private final ProdutoRepository produtoRepository;

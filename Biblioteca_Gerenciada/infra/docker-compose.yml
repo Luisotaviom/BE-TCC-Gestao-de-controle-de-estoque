@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: controlador_estoque_user
+      POSTGRES_PASSWORD: controlador_estoque_pwd.1234
+      POSTGRES_DB: controlador_estoque_db
+      POSTGRES_MULTIPLE_DATABASES: controlador_estoque_db
+    ports:
+      - 5433:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

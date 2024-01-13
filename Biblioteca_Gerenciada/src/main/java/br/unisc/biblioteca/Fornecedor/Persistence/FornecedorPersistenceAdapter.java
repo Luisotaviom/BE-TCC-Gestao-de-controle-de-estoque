@@ -1,8 +1,8 @@
-package br.unisc.biblioteca.Biblioteca.Persistence;
+package br.unisc.biblioteca.Fornecedor.Persistence;
 
-import br.unisc.biblioteca.Biblioteca.Repository.FornecedorRepository;
-import br.unisc.biblioteca.Biblioteca.DTOs.FornecedorDTO;
-import br.unisc.biblioteca.Biblioteca.Banco.FornecedorEntity;
+import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
+import br.unisc.biblioteca.Fornecedor.DTOs.FornecedorDTO;
+import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

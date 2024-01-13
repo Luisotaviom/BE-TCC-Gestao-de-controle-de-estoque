@@ -1,8 +1,8 @@
-package br.unisc.biblioteca.BiblioGerency.Persistence;
+package br.unisc.biblioteca.Gerency.Persistence;
 
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO2;
-import br.unisc.biblioteca.BiblioGerency.DTOs.ProdutoEncontradoFornecedorDTO;
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO2;
+import br.unisc.biblioteca.Gerency.DTOs.ProdutoEncontradoFornecedorDTO;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

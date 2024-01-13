@@ -1,7 +1,7 @@
-package br.unisc.biblioteca.Produto_1.Service;
+package br.unisc.biblioteca.Produto.Service;
 
-import br.unisc.biblioteca.Produto_1.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto_1.Persistence.ProdutoPersistence;
+import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
+import br.unisc.biblioteca.Produto.Persistence.ProdutoPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

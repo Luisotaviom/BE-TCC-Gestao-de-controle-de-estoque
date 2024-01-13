@@ -1,9 +1,9 @@
-package br.unisc.biblioteca.BiblioGerency.Controller;
+package br.unisc.biblioteca.Gerency.Controller;
 
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO2;
-import br.unisc.biblioteca.BiblioGerency.DTOs.ProdutoEncontradoFornecedorDTO;
-import br.unisc.biblioteca.BiblioGerency.Service.GerencyService;
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO2;
+import br.unisc.biblioteca.Gerency.DTOs.ProdutoEncontradoFornecedorDTO;
+import br.unisc.biblioteca.Gerency.Service.GerencyService;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

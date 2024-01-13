@@ -1,6 +1,6 @@
-package br.unisc.biblioteca.Produto_1.Persistence;
+package br.unisc.biblioteca.Produto.Persistence;
 
-import br.unisc.biblioteca.Produto_1.DTOs.ProdutoDto;
+import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

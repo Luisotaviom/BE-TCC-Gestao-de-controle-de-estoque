@@ -1,9 +1,9 @@
-package br.unisc.biblioteca.BiblioGerency.Service;
+package br.unisc.biblioteca.Gerency.Service;
 
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO2;
-import br.unisc.biblioteca.BiblioGerency.Persistence.GerencyPersistence;
-import br.unisc.biblioteca.BiblioGerency.DTOs.GerencyDTO;
-import br.unisc.biblioteca.BiblioGerency.DTOs.ProdutoEncontradoFornecedorDTO;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO2;
+import br.unisc.biblioteca.Gerency.Persistence.GerencyPersistence;
+import br.unisc.biblioteca.Gerency.DTOs.GerencyDTO;
+import br.unisc.biblioteca.Gerency.DTOs.ProdutoEncontradoFornecedorDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
