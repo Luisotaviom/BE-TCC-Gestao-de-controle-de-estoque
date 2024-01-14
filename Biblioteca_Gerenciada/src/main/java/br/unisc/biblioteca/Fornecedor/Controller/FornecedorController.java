@@ -18,37 +18,37 @@ public class FornecedorController {
 
     @PostMapping
     public ResponseEntity<?> createFornecedor(@RequestBody FornecedorDTO fornecedorDTO) {
-        fornecedorService.createBiblioteca(fornecedorDTO);
+        fornecedorService.createFornecedor(fornecedorDTO);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBiblioteca(@PathVariable Long id) {
-        fornecedorService.deleteBiblioteca(id);
+    public ResponseEntity<?> deleteFornecedor(@PathVariable Long id) {
+        fornecedorService.deleteFornecedor(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBiblioteca(@RequestBody FornecedorDTO fornecedorDTO, @PathVariable Long id) {
-        fornecedorService.updateBiblioteca(id, fornecedorDTO);
+    public ResponseEntity<?> updateFornecedor(@RequestBody FornecedorDTO fornecedorDTO, @PathVariable Long id) {
+        fornecedorService.updateFornecedor(id, fornecedorDTO);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
     }
 
     @GetMapping
-    public ResponseEntity<Page<FornecedorDTO>> buscarBiblioteca(Pageable pageable) {
+    public ResponseEntity<Page<FornecedorDTO>> buscarFornecedor(Pageable pageable) {
         return ResponseEntity
-                .ok(fornecedorService.buscarBiblioteca(pageable));
+                .ok(fornecedorService.buscarFornecedor(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FornecedorDTO> buscarPorIdBiblio(@PathVariable Long id) {
-        var biblioteca = fornecedorService.buscarPorIdBiblio(id);
-        return ResponseEntity.ok((FornecedorDTO) biblioteca);
+    public ResponseEntity<FornecedorDTO> buscarPorIdFornecedor(@PathVariable Long id) {
+        var fornecedor = fornecedorService.buscarPorIdFornecedor(id);
+        return ResponseEntity.ok((FornecedorDTO) fornecedor);
     }
 }

@@ -6,7 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "Produto")
+@Table(name = "Produtos")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Builder
@@ -21,28 +21,20 @@ public class ProdutoEntity {
     String nome;
 
     @Column(nullable = false)
-    String marca;
+    Long fornecedor_id;
 
     @Column(nullable = false)
-    String peso;
-
-    @Column(nullable = false)
-    Long preco_custo;
-
-    @Column(nullable = false, unique = true)
-    Long preco_venda;
+    String categoria;
 
     public static ProdutoDto converterEntidadeParaDto(ProdutoEntity entidade) {
-        return new ProdutoDto(entidade.getId(), entidade.getNome(), entidade.getMarca(), entidade.getPeso(), entidade.getPreco_custo(), entidade.getPreco_venda());
+        return new ProdutoDto(entidade.getId(), entidade.getNome(), entidade.getFornecedor_id(), entidade.getCategoria());
     }
 
     public static ProdutoEntity criarEntidade(ProdutoDto dto) {
         return ProdutoEntity.builder()
                 .nome(dto.getNome())
-                .marca(dto.getMarca())
-                .peso(dto.getPeso())
-                .preco_custo(dto.getPreco_custo())
-                .preco_venda(dto.getPreco_venda())
+                .fornecedor_id(dto.getFornecedor_id())
+                .categoria(dto.getCategoria())
                 .build();
     }
 }

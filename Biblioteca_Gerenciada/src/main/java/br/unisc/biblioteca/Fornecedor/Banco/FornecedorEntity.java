@@ -6,7 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "Fornecedor")
+@Table(name = "Fornecedores")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Builder
@@ -25,10 +25,10 @@ public class FornecedorEntity {
     String cidade;
 
     @Column(nullable = false, unique = true)
-    String email;
+    String celular;
 
     @Column(nullable = false, unique = true)
-    Long celular;
+    String email;
 
     public static FornecedorDTO converterEntidadeParaDto(FornecedorEntity entidade) {
         return new FornecedorDTO(entidade.getId(), entidade.getNome(), entidade.getCidade(), entidade.getEmail(), entidade.getCelular());

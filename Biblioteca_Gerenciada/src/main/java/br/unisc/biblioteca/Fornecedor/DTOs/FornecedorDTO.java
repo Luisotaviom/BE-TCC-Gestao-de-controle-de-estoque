@@ -11,6 +11,6 @@ public class FornecedorDTO {
     Long id;
     String nome;
     String cidade;
+    String celular;
     String email;
-    Long celular;
 }

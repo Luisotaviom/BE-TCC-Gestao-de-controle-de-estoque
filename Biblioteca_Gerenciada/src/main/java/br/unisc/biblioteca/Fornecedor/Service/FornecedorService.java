@@ -17,22 +17,22 @@ public class FornecedorService {
 
     private final FornecedorPersistence persistence;
 
-    public void createBiblioteca(FornecedorDTO fornecedorDTO) {
-        persistence.createBiblioteca(fornecedorDTO);
+    public void createFornecedor(FornecedorDTO fornecedorDTO) {
+        persistence.createFornecedor(fornecedorDTO);
     }
 
-    public void deleteBiblioteca(Long id) {
-        persistence.deleteBiblioteca(id);
+    public void deleteFornecedor(Long id) {
+        persistence.deleteFornecedor(id);
     }
 
-    public void updateBiblioteca(Long id, FornecedorDTO fornecedorDTO) {
-        persistence.updateBiblioteca(id, fornecedorDTO);
+    public void updateFornecedor(Long id, FornecedorDTO fornecedorDTO) {
+        persistence.updateFornecedor(id, fornecedorDTO);
     }
 
-    public Page<FornecedorDTO> buscarBiblioteca(Pageable pageable) {
-        return persistence.buscarBiblioteca(pageable);
+    public Page<FornecedorDTO> buscarFornecedor(Pageable pageable) {
+        return persistence.buscarFornecedor(pageable);
     }
 
-    public Object buscarPorIdBiblio(Long id) {return persistence.buscarPorIdBiblio(id);}
+    public Object buscarPorIdFornecedor(Long id) {return persistence.buscarPorIdFornecedor(id);}
 
 }
