@@ -17,12 +17,10 @@ public class ProdutoController {
 
     private final ProdutoService produtoService;
 
-    @PostMapping
-    public ResponseEntity<?> criarProduto(@RequestBody ProdutoDto produtoDto) {
-        produtoService.criarProduto(produtoDto);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .build();
+    @PostMapping("/fornecedor/{id}/produto")
+    public ResponseEntity<?> criarProduto(@PathVariable Long id, @RequestBody ProdutoDto produtoDto) {
+        produtoService.criarProduto(id, produtoDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")

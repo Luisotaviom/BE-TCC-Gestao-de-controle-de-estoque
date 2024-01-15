@@ -6,13 +6,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface FornecedorPersistence {
 
-    void createBiblioteca(FornecedorDTO fornecedorDTO);
+    void createFornecedor(FornecedorDTO fornecedorDTO);
 
-    void deleteBiblioteca(Long id);
+    void deleteFornecedor(Long id);
 
-    void updateBiblioteca(Long id, FornecedorDTO fornecedorDTO);
+    void updateFornecedor(Long id, FornecedorDTO fornecedorDTO);
 
-    Page<FornecedorDTO> buscarBiblioteca(Pageable pageable);
+    Page<FornecedorDTO> buscarFornecedor(Pageable pageable);
 
-    Object buscarPorIdBiblio(Long id);
+    Object buscarPorIdFornecedor(Long id);
 }

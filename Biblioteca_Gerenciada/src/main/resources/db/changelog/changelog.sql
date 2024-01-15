@@ -23,3 +23,30 @@ create table if not exists movimentacoes
     tipo varchar(1),
     produto_id int references produtos(id)
 )
+<<<<<<< HEAD
+=======
+
+-- changeset luis:alterar-tabela-fornecedores
+ALTER TABLE fornecedores
+    ADD cidade VARCHAR(255),
+    ADD celular VARCHAR(20),
+    ADD email VARCHAR(255);
+
+-- changeset luis:alterar-tabela-produtos
+ALTER TABLE produtos
+    ADD categoria VARCHAR(255);
+
+-- changeset luis:alterar-tabela-fornecedores2
+ALTER TABLE fornecedores
+    ALTER COLUMN cidade DROP NOT NULL,
+    ALTER COLUMN celular DROP NOT NULL,
+    ALTER COLUMN email DROP NOT NULL;
+
+-- changeset luis:alterar-tabela-fornecedores3
+ALTER TABLE fornecedores
+    ALTER COLUMN celular DROP NOT NULL;
+
+-- changeset luis:alterar-tabela-fornecedores4
+ALTER TABLE fornecedores
+    ALTER COLUMN cidade DROP NOT NULL;
+>>>>>>> 7de9f890f1179eadc16c3425d0b53cdaef6c2d36

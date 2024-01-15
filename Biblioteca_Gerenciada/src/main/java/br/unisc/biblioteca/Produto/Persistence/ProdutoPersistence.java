@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProdutoPersistence {
 
-    void criarProduto(ProdutoDto produtoDto);
+    void criarProduto(Long id, ProdutoDto produtoDto);
 
     void updateProduto(Long id, ProdutoDto produtoDto);
 

@@ -17,8 +17,8 @@ public class ProdutoService {
 
     private final ProdutoPersistence persistence;
 
-    public void criarProduto(ProdutoDto produtoDto) {
-        persistence.criarProduto(produtoDto);
+    public void criarProduto(Long id, ProdutoDto produtoDto) {
+        persistence.criarProduto(id, produtoDto);
     }
 
     public void updateProduto(Long id, ProdutoDto produtoDto) {
