@@ -1,10 +1,7 @@
 package br.unisc.biblioteca.Produto.Persistence;
 
-<<<<<<< HEAD
-=======
 import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
->>>>>>> 7de9f890f1179eadc16c3425d0b53cdaef6c2d36
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.Repository.ProdutoRepository;
