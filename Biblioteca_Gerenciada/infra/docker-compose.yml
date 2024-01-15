@@ -15,8 +15,4 @@ services:
       - pgdata:/var/lib/postgresql/data
 
 volumes:
-<<<<<<< HEAD
   pgdata:
-=======
-  pgdata:
->>>>>>> 7de9f890f1179eadc16c3425d0b53cdaef6c2d36
