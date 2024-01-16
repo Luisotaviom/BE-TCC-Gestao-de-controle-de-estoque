@@ -10,13 +10,11 @@ import java.util.List;
 
 public interface GerencyPersistence {
 
-    void addProdutoNoFornecedor(GerencyDTO dto);
+    void deleteProdutoDoFornecedor(Long fornecedorId, Long nomeId);
 
-    void deleteProdutoDoFornecedor(Long bibliotecaId, Long livroId);
+    List<ProdutoEncontradoFornecedorDTO> produtoPorNome(String nome);
 
-    List<ProdutoEncontradoFornecedorDTO> produtoPorNome(String titulo);
-
-    Page<ProdutoEncontradoFornecedorDTO> ProdutosDoFornecedor(Long bibliotecaId, Pageable pageable);
+    Page<ProdutoEncontradoFornecedorDTO> ProdutosDoFornecedor(Long fornecedorId, Pageable pageable);
 
     Page<GerencyDTO2> buscarVinculados(Pageable pageable);
 }

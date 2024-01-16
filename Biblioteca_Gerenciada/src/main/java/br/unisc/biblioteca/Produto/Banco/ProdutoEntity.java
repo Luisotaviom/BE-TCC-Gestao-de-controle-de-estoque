@@ -1,6 +1,7 @@
 package br.unisc.biblioteca.Produto.Banco;
 
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
+import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -37,5 +38,16 @@ public class ProdutoEntity {
                 .categoria(dto.getCategoria())
                 .build();
     }
+
+    public static ProdutosDoFornecedorDto convertProdutoToDTO(ProdutoEntity entidade) {
+        var dto = new ProdutosDoFornecedorDto();
+        dto.setNome(entidade.getNome()); // Mapear o nome do fornecedor
+        dto.setCategoria(entidade.getCategoria()); // Mapear o nome do produto
+        return dto;
+    }
+
+
 }
+
+
 

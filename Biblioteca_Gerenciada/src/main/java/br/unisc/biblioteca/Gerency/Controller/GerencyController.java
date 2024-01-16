@@ -21,15 +21,6 @@ public class GerencyController {
 
     private final GerencyService gerenciarService;
 
-
-    @PostMapping("/addLivroNaBiblioteca")
-    public ResponseEntity<?> addProdutoNoFornecedor(@RequestBody GerencyDTO dto) {
-        gerenciarService.addProdutoNoFornecedor(dto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .build();
-    }
-
     @DeleteMapping("/{FornecedorId}/Livros/{ProdutoId}")
     public ResponseEntity<?> deleteProdutoDoFornecedor(@PathVariable Long FornecedorId, @PathVariable Long ProdutoId){
         gerenciarService.deleteProdutoDoFornecedor(FornecedorId, ProdutoId);

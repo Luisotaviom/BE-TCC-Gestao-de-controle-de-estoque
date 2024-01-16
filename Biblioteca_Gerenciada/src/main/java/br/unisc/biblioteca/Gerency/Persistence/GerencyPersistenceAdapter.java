@@ -21,23 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GerencyPersistenceAdapter implements br.unisc.biblioteca.Gerency.Persistence.GerencyPersistence {
 
-    private final FornecedorRepository fornecedorRepository;
-    private final ProdutoRepository produtoRepository;
     private final GerencyRepository gerencyRepository;
 
-    @Override
-    public void addProdutoNoFornecedor(GerencyDTO dto) {
-        FornecedorEntity fornecedor = fornecedorRepository.findById(dto.getFornecedorId())
-                .orElseThrow();
-
-        ProdutoEntity produto = produtoRepository.findById(dto.getProdutoId())
-                .orElseThrow();
-
-        GerenciaEntity gerency = new GerenciaEntity();
-        gerency.setFornecedor(fornecedor);
-        gerency.setProduto(produto);
-        gerencyRepository.save(gerency);
-    }
 
         @Override
         @Transactional
@@ -58,8 +43,8 @@ public class GerencyPersistenceAdapter implements br.unisc.biblioteca.Gerency.Pe
     public Page<ProdutoEncontradoFornecedorDTO> ProdutosDoFornecedor(Long fornecedorId, Pageable pageable) {
         var entidadeOptional = gerencyRepository.findByFornecedorId(fornecedorId, pageable);
         entidadeOptional.isEmpty();
-        Page<GerenciaEntity> bibliotecaLivros = gerencyRepository.findByFornecedorId(fornecedorId, pageable);
-        return bibliotecaLivros.map(GerenciaEntity::convertEntityToDTO);
+        Page<GerenciaEntity> encontrado = gerencyRepository.findByFornecedorId(fornecedorId, pageable);
+        return encontrado.map(GerenciaEntity::convertEntityToDTO);
     }
 
     @Override

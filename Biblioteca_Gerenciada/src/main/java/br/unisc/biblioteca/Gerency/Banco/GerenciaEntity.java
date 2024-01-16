@@ -9,7 +9,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "Gerencia")
+@Table(name = "Produto_Fornecedor")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Builder
@@ -21,11 +21,11 @@ public class GerenciaEntity {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "Fornecedor_FK", nullable = false)
+    @JoinColumn(name = "fornecedor_id", nullable = false)
     private FornecedorEntity fornecedor;
 
     @ManyToOne
-    @JoinColumn(name = "Produto_FK", nullable = false)
+    @JoinColumn(name = "produto_id", nullable = false)
     private ProdutoEntity produto;
 
 

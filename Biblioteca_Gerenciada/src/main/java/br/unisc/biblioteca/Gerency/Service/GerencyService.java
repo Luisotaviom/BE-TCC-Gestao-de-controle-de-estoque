@@ -21,10 +21,6 @@ public class GerencyService {
 
     private final GerencyPersistence persistence;
 
-    public void addProdutoNoFornecedor(GerencyDTO dto) {
-        persistence.addProdutoNoFornecedor(dto);
-    }
-
     public void deleteProdutoDoFornecedor(Long bibliotecaId, Long livroId) {
         persistence.deleteProdutoDoFornecedor(bibliotecaId, livroId);
     }

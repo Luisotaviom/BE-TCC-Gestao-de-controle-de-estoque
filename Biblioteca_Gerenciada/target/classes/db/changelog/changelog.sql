@@ -47,3 +47,12 @@ ALTER TABLE fornecedores
 -- changeset luis:alterar-tabela-fornecedores4
 ALTER TABLE fornecedores
     ALTER COLUMN cidade DROP NOT NULL;
+
+-- changeset Luisotaviom:criar-tabela-Livro_Biblio
+CREATE TABLE Produto_Fornecedor (
+      id serial primary key,
+      produto_id INT,
+      fornecedor_id INT,
+      FOREIGN KEY (produto_id) REFERENCES produtos(id),
+      FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id)
+);

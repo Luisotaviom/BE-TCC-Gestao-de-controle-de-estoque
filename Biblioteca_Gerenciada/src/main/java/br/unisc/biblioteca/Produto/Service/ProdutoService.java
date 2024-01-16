@@ -1,6 +1,8 @@
 package br.unisc.biblioteca.Produto.Service;
 
+import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
+import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import br.unisc.biblioteca.Produto.Persistence.ProdutoPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -35,4 +40,7 @@ public class ProdutoService {
 
     public Object buscarPorId(Long id) {return persistence.buscarPorId(id);}
 
+    public Page<ProdutosDoFornecedorDto> buscarProdutosDoFornecedor(Long fornecedorId, Pageable pageable) {
+        return persistence.buscarProdutosDoFornecedor(fornecedorId, pageable);
+    }
 }
