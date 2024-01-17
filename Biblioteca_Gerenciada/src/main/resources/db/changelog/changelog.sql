@@ -56,3 +56,14 @@ CREATE TABLE Produto_Fornecedor (
       FOREIGN KEY (produto_id) REFERENCES produtos(id),
       FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id)
 );
+
+-- changeset Luisotaviom:deletar-tabela-Livro_Biblio
+drop table Produto_Fornecedor
+
+-- changeset luis:alterar-tabela-movimentacoes
+ALTER TABLE movimentacoes
+    ADD COLUMN quantidade int NOT NULL,
+    ADD COLUMN fornecedor_id int,
+    ADD COLUMN valor numeric(9,2) NOT NULL,
+    DROP COLUMN preco,
+    ADD FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id);

@@ -39,14 +39,6 @@ public class ProdutoEntity {
                 .build();
     }
 
-    public static ProdutosDoFornecedorDto convertProdutoToDTO(ProdutoEntity entidade) {
-        var dto = new ProdutosDoFornecedorDto();
-        dto.setNome(entidade.getNome()); // Mapear o nome do fornecedor
-        dto.setCategoria(entidade.getCategoria()); // Mapear o nome do produto
-        return dto;
-    }
-
-
 }
 
 
