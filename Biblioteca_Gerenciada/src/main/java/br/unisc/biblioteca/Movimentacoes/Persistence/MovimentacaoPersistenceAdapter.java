@@ -4,6 +4,8 @@ import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
+import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.EntidadeNaoEncontradaException;
+import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
 import br.unisc.biblioteca.Movimentacoes.Repository.MovimentacaoRepository;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.Repository.ProdutoRepository;
@@ -32,14 +34,26 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
     private ProdutoRepository produtoRepository;
 
     @Override
-    public void criarMovimentacao(MovimentacaoDTO movimentacaoDto) {
+    public void criarMovimentacao(MovimentacaoDTO movimentacaoDto) throws ValidacaoNegocioException {
         // Busca o fornecedor pelo ID fornecido no DTO
         Optional<FornecedorEntity> fornecedorOptional = fornecedorRepository.findById(movimentacaoDto.getFornecedor_id());
-        FornecedorEntity fornecedor = fornecedorOptional.orElse(null);
+        if (fornecedorOptional.isEmpty()) {
+            throw new EntidadeNaoEncontradaException("Fornecedor não encontrado com ID: " + movimentacaoDto.getFornecedor_id());
+        }
+        FornecedorEntity fornecedor = fornecedorOptional.get();
 
         // Busca o produto pelo ID fornecido no DTO
         Optional<ProdutoEntity> produtoOptional = produtoRepository.findById(movimentacaoDto.getProduto_id());
-        ProdutoEntity produto = produtoOptional.orElse(null);
+        if (produtoOptional.isEmpty()) {
+            throw new EntidadeNaoEncontradaException("Produto não encontrado com ID: " + movimentacaoDto.getProduto_id());
+        }
+        ProdutoEntity produto = produtoOptional.get();
+
+        // Verifica se o produto pertence ao fornecedor
+        if (!produto.getFornecedor_id().equals(fornecedor.getId())) {
+            throw new ValidacaoNegocioException("O produto selecionado não pertence ao fornecedor selecionado.");
+        }
+
 
         // Cria a entidade de movimentação
         MovimentacaoEntity movimentacaoEntidade = MovimentacaoEntity.criarEntidade(movimentacaoDto, fornecedor, produto);
@@ -47,6 +61,8 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
         // Salva a entidade de movimentação
         movimentacaoRepository.save(movimentacaoEntidade);
     }
+
+
 
 
     @Override
@@ -94,5 +110,15 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
     public Page<MovimentacaoDTO> buscarTodasMovimentacoes(Pageable pageable) {
         return movimentacaoRepository.findAll(pageable)
                 .map(MovimentacaoEntity::convertEntidadeParaDto);
+    }
+
+
+    @Override
+    public Page<MovimentacaoEntity> buscarPorTipo(String tipo, Pageable pageable) {
+        if ("E".equals(tipo) || "S".equals(tipo)) {
+            return movimentacaoRepository.findByTipo(tipo, pageable);
+        } else {
+            return movimentacaoRepository.findAll(pageable);
+        }
     }
 }

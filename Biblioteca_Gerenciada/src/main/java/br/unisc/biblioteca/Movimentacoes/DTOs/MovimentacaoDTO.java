@@ -1,5 +1,6 @@
 package br.unisc.biblioteca.Movimentacoes.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,10 +16,17 @@ import java.time.LocalDateTime;
 public class MovimentacaoDTO {
 
     private Long id; // Opcional para criação
+
     private Long produto_id;
+
     private Integer quantidade;
+
     private BigDecimal valor;
+
     private String tipo; // Considerar usar Enum aqui
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataRegistro;
+
     private Long fornecedor_id; // Opcional para saídas
 }

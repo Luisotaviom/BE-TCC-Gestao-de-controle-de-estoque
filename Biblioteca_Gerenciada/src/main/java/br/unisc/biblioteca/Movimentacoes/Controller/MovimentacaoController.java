@@ -1,5 +1,6 @@
 package br.unisc.biblioteca.Movimentacoes.Controller;
 
+import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.Service.MovimentacaoService;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
@@ -7,6 +8,7 @@ import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import br.unisc.biblioteca.Produto.Service.ProdutoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,9 @@ public class MovimentacaoController {
     private final MovimentacaoService movimentacaoService;
 
     @PostMapping
-    public ResponseEntity<?> criarMovimentacao(@RequestBody MovimentacaoDTO movimentacaoDTO) {
-        movimentacaoService.criarMovimentacao(movimentacaoDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Object> criarMovimentacao(@RequestBody MovimentacaoDTO movimentacaoDto) {
+        ResponseEntity<Object> responseEntity = movimentacaoService.criarMovimentacao(movimentacaoDto);
+        return responseEntity;
     }
 
     @GetMapping
@@ -62,5 +64,15 @@ public class MovimentacaoController {
         return ResponseEntity.ok((MovimentacaoDTO) movimentacoes);
     }
 
+    @GetMapping("/buscarPorTipo")
+    public ResponseEntity<Page<MovimentacaoDTO>> listMovimentacoesPorTipo(
+            @RequestParam(required = false) String tipo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorTipo(tipo, pageable);
+        return ResponseEntity.ok(movimentacoes);
+    }
 
 }
