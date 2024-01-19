@@ -12,4 +12,5 @@ public class ProdutoDto {
     String nome;
     Long fornecedor_id;
     String categoria;
+    Boolean ativo;
 }

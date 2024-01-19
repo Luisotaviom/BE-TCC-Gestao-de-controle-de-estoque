@@ -1,5 +1,7 @@
 package br.unisc.biblioteca.Produto.Persistence;
 
+import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
+import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import org.springframework.data.domain.Page;
@@ -20,5 +22,10 @@ public interface ProdutoPersistence {
     Object buscarPorId(Long id);
 
     Page<ProdutosDoFornecedorDto> buscarProdutosDoFornecedor(Long fornecedorId, Pageable pageable);
+
+    Page<ProdutoEntity> buscarTodos(Pageable pageable);
+
+    Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable);
+
 
 }

@@ -30,16 +30,20 @@ public class FornecedorEntity {
     @Column(nullable = false, unique = true)
     String email;
 
+    @Column(nullable = false, unique = true)
+    Boolean ativo = true;
+
     public static FornecedorDTO converterEntidadeParaDto(FornecedorEntity entidade) {
-        return new FornecedorDTO(entidade.getId(), entidade.getNome(), entidade.getCidade(), entidade.getEmail(), entidade.getCelular());
+        return new FornecedorDTO(entidade.getId(), entidade.getNome(), entidade.getCidade(), entidade.getCelular(), entidade.getEmail(), entidade.getAtivo());
     }
 
     public static FornecedorEntity criarEntidade(FornecedorDTO dto) {
         return FornecedorEntity.builder()
                 .nome(dto.getNome())
                 .cidade(dto.getCidade())
-                .email(dto.getEmail())
                 .celular(dto.getCelular())
+                .email(dto.getEmail())
+                .ativo(dto.getAtivo())
                 .build();
     }
 }

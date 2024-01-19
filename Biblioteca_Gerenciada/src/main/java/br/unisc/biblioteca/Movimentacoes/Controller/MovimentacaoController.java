@@ -72,6 +72,7 @@ public class MovimentacaoController {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorTipo(tipo, pageable);
+
         return ResponseEntity.ok(movimentacoes);
     }
 

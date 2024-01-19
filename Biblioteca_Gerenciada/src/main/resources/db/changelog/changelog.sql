@@ -67,3 +67,11 @@ ALTER TABLE movimentacoes
     ADD COLUMN valor numeric(9,2) NOT NULL,
     DROP COLUMN preco,
     ADD FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id);
+
+-- changeset luis:alterar-tabela-fornecedores8
+ALTER TABLE fornecedores
+    ADD COLUMN ativo boolean NOT NULL DEFAULT true;
+
+-- changeset luis:alterar-tabela-produtos8
+ALTER TABLE produtos
+    ADD COLUMN ativo boolean NOT NULL DEFAULT true;

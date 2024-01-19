@@ -1,5 +1,6 @@
 package br.unisc.biblioteca.Produto.Service;
 
+import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
@@ -43,4 +44,13 @@ public class ProdutoService {
     public Page<ProdutosDoFornecedorDto> buscarProdutosDoFornecedor(Long fornecedorId, Pageable pageable) {
         return persistence.buscarProdutosDoFornecedor(fornecedorId, pageable);
     }
+
+    public Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable) {
+        return persistence.buscarProdutosPorStatus(ativo, pageable);
+    }
+
+    public Page<ProdutoEntity> buscarTodos(Pageable pageable) {
+        return persistence.buscarTodos(pageable);
+    }
+
 }

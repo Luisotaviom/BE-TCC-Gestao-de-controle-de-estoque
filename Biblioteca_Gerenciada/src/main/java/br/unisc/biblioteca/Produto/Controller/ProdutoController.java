@@ -1,10 +1,15 @@
 package br.unisc.biblioteca.Produto.Controller;
 
+import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
+import br.unisc.biblioteca.Fornecedor.DTOs.FornecedorDTO;
+import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import br.unisc.biblioteca.Produto.Service.ProdutoService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,10 +40,12 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduto(@RequestBody ProdutoDto produtoDto, @PathVariable Long id) {
-        produtoService.updateProduto(id, produtoDto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .build();
+        try {
+            produtoService.updateProduto(id, produtoDto);
+            return ResponseEntity.ok().build(); // ResponseEntity.ok() já retorna o status 200
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -68,6 +75,24 @@ public class ProdutoController {
         return ResponseEntity.ok(produtos);
     }
 
+    @GetMapping("/buscarPorStatus")
+    public ResponseEntity<Page<ProdutoDto>> listProdutosPorStatus(
+            @RequestParam(required = false) Boolean ativo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ProdutoEntity> produtoEntities;
+
+        if (ativo != null) {
+            produtoEntities = produtoService.buscarProdutosPorStatus(ativo, pageable);
+        } else {
+            produtoEntities = produtoService.buscarTodos(pageable);
+        }
+
+        Page<ProdutoDto> produtosDTOs = produtoEntities.map(ProdutoEntity::converterEntidadeParaDto);
+
+        return ResponseEntity.ok(produtosDTOs);
+    }
 
 }

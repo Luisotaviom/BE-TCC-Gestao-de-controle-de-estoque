@@ -1,5 +1,6 @@
 package br.unisc.biblioteca.Produto.Repository;
 
+import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,5 +17,8 @@ public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long> {
 
     @Query("SELECT p FROM ProdutoEntity p WHERE p.fornecedor_id = :fornecedorId")
     Page<ProdutoEntity> findByFornecedorId(@Param("fornecedorId") Long fornecedorId, Pageable pageable);
+
+    Page<ProdutoEntity> findByAtivo(boolean ativo, Pageable pageable);
+
 
 }

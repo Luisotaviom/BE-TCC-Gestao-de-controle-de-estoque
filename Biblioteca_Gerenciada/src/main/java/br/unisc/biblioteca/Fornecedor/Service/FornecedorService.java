@@ -1,5 +1,6 @@
 package br.unisc.biblioteca.Fornecedor.Service;
 
+import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Fornecedor.DTOs.FornecedorDTO;
 import br.unisc.biblioteca.Fornecedor.Persistence.FornecedorPersistence;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +29,18 @@ public class FornecedorService {
     public void updateFornecedor(Long id, FornecedorDTO fornecedorDTO) {
         persistence.updateFornecedor(id, fornecedorDTO);
     }
-
     public Page<FornecedorDTO> buscarFornecedor(Pageable pageable) {
         return persistence.buscarFornecedor(pageable);
     }
 
     public Object buscarPorIdFornecedor(Long id) {return persistence.buscarPorIdFornecedor(id);}
+
+    public Page<FornecedorEntity> buscarFornecedoresPorStatus(boolean ativo, Pageable pageable) {
+        return persistence.buscarFornecedoresPorStatus(ativo, pageable);
+    }
+
+    public Page<FornecedorEntity> buscarTodos(Pageable pageable) {
+        return persistence.buscarTodos(pageable);
+    }
 
 }

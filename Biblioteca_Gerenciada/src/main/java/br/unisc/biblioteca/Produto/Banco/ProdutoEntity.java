@@ -21,14 +21,19 @@ public class ProdutoEntity {
     @Column(nullable = false)
     String nome;
 
+
     @Column(nullable = false)
     Long fornecedor_id;
 
     @Column(nullable = false)
     String categoria;
 
+    @Column(nullable = false, unique = true)
+    Boolean ativo = true;
+
+
     public static ProdutoDto converterEntidadeParaDto(ProdutoEntity entidade) {
-        return new ProdutoDto(entidade.getId(), entidade.getNome(), entidade.getFornecedor_id(), entidade.getCategoria());
+        return new ProdutoDto(entidade.getId(), entidade.getNome(), entidade.getFornecedor_id(), entidade.getCategoria(), entidade.getAtivo());
     }
 
     public static ProdutoEntity criarEntidade(ProdutoDto dto) {
@@ -36,6 +41,7 @@ public class ProdutoEntity {
                 .nome(dto.getNome())
                 .fornecedor_id(dto.getFornecedor_id())
                 .categoria(dto.getCategoria())
+                .ativo(dto.getAtivo())
                 .build();
     }
 

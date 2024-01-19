@@ -6,6 +6,7 @@ import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import br.unisc.biblioteca.Produto.Repository.ProdutoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,24 @@ class ProdutoPersistenceAdapter implements ProdutoPersistence {
     @Override
     public void updateProduto(Long id, ProdutoDto produtoDto) {
         var entidadeOptional = produtoRepository.findById(id);
-        var entidade = entidadeOptional.get();
-        entidade.setNome(StringUtils.isBlank(produtoDto.getNome()) ? entidade.getNome() : produtoDto.getNome());
-        entidade.setFornecedor_id(produtoDto.getFornecedor_id());
-        entidade.setCategoria(StringUtils.isBlank(produtoDto.getCategoria()) ? entidade.getCategoria() : produtoDto.getCategoria());
+        if (entidadeOptional.isPresent()) {
+            var entidade = entidadeOptional.get();
+            entidade.setNome(StringUtils.isBlank(produtoDto.getNome()) ? entidade.getNome() : produtoDto.getNome());
+            entidade.setFornecedor_id(produtoDto.getFornecedor_id());
+            entidade.setCategoria(StringUtils.isBlank(produtoDto.getCategoria()) ? entidade.getCategoria() : produtoDto.getCategoria());
 
-        produtoRepository.save(entidade);
+            // Adicionar lógica para atualizar o status de ativação
+            if (produtoDto.getAtivo() != null) { // Supondo que getAtivo retorna Boolean para lidar com null
+                entidade.setAtivo(produtoDto.getAtivo());
+            }
+            produtoRepository.save(entidade);
+        } else {
+            // Lançar uma exceção específica que pode ser definida em seu projeto
+            throw new EntityNotFoundException("Fornecedor não encontrado com ID: " + id);
+        }
     }
+
+
 
     @Override
     public void deleteProduto(Long id) {
@@ -84,5 +96,15 @@ class ProdutoPersistenceAdapter implements ProdutoPersistence {
         ));
 
         return produtosDto;
+    }
+
+    @Override
+    public Page<ProdutoEntity> buscarTodos(Pageable pageable) {
+        return produtoRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable) {
+        return produtoRepository.findByAtivo(ativo, pageable);
     }
 }

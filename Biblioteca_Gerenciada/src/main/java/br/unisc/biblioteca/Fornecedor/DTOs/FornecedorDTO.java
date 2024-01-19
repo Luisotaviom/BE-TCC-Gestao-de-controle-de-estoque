@@ -13,4 +13,5 @@ public class FornecedorDTO {
     String cidade;
     String celular;
     String email;
+    Boolean ativo;
 }
