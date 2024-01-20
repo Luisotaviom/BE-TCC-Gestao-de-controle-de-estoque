@@ -23,10 +23,10 @@ public class MovimentacaoDTO {
 
     private BigDecimal valor;
 
-    private String tipo; // Considerar usar Enum aqui
+    private String tipo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dataRegistro;
 
-    private Long fornecedor_id; // Opcional para saídas
+    private Long fornecedor_id;
 }

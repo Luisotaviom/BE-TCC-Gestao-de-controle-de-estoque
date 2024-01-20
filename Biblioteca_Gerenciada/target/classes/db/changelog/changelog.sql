@@ -75,3 +75,7 @@ ALTER TABLE fornecedores
 -- changeset luis:alterar-tabela-produtos8
 ALTER TABLE produtos
     ADD COLUMN ativo boolean NOT NULL DEFAULT true;
+
+
+
+
