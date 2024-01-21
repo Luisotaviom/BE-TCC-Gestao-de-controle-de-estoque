@@ -11,12 +11,15 @@ import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.Repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -33,37 +36,27 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+
     @Override
     public void criarMovimentacao(MovimentacaoDTO movimentacaoDto) throws ValidacaoNegocioException {
-        // Busca o fornecedor pelo ID fornecido no DTO
         Optional<FornecedorEntity> fornecedorOptional = fornecedorRepository.findById(movimentacaoDto.getFornecedor_id());
         if (fornecedorOptional.isEmpty()) {
             throw new EntidadeNaoEncontradaException("Fornecedor não encontrado com ID: " + movimentacaoDto.getFornecedor_id());
         }
         FornecedorEntity fornecedor = fornecedorOptional.get();
-
-        // Busca o produto pelo ID fornecido no DTO
         Optional<ProdutoEntity> produtoOptional = produtoRepository.findById(movimentacaoDto.getProduto_id());
         if (produtoOptional.isEmpty()) {
             throw new EntidadeNaoEncontradaException("Produto não encontrado com ID: " + movimentacaoDto.getProduto_id());
         }
         ProdutoEntity produto = produtoOptional.get();
 
-        // Verifica se o produto pertence ao fornecedor
         if (!produto.getFornecedor_id().equals(fornecedor.getId())) {
             throw new ValidacaoNegocioException("O produto selecionado não pertence ao fornecedor selecionado.");
         }
-
-
-        // Cria a entidade de movimentação
         MovimentacaoEntity movimentacaoEntidade = MovimentacaoEntity.criarEntidade(movimentacaoDto, fornecedor, produto);
 
-        // Salva a entidade de movimentação
         movimentacaoRepository.save(movimentacaoEntidade);
     }
-
-
-
 
     @Override
     public void updateMovimentacao(Long id, MovimentacaoDTO movimentacaoDto) {
@@ -102,7 +95,7 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
             MovimentacaoEntity movimentacao = movimentacaoOptional.get();
             return MovimentacaoEntity.convertEntidadeParaDto(movimentacao);
         } else {
-            return null; // Ou você pode optar por lançar uma exceção se a movimentação não for encontrada.
+            return null;
         }
     }
 
@@ -121,4 +114,17 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
             return movimentacaoRepository.findAll(pageable);
         }
     }
+
+    @Override
+    public Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable) {
+        Page<MovimentacaoEntity> page = movimentacaoRepository.findAllByDataRegistroBetween(start, end, pageable);
+        return page.map(MovimentacaoEntity::convertEntidadeParaDto);
+    }
+
+    @Override
+    public Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable) {
+        Page<MovimentacaoEntity> page = movimentacaoRepository.findByTipoAndDataRegistroBetween(tipo, start, end, pageable);
+        return page.map(MovimentacaoEntity::convertEntidadeParaDto);
+    }
+
 }

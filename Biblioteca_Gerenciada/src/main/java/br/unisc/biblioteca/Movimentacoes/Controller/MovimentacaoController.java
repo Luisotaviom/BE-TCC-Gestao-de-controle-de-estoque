@@ -3,16 +3,17 @@ package br.unisc.biblioteca.Movimentacoes.Controller;
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.Service.MovimentacaoService;
-import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
-import br.unisc.biblioteca.Produto.Service.ProdutoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -73,6 +74,27 @@ public class MovimentacaoController {
         Pageable pageable = PageRequest.of(page, size);
         Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorTipo(tipo, pageable);
 
+        return ResponseEntity.ok(movimentacoes);
+    }
+
+    @GetMapping("/buscarPorData")
+    public ResponseEntity<Page<MovimentacaoDTO>> buscarPorData(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            Pageable pageable) {
+
+        Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorIntervaloDeData(start, end, pageable);
+        return ResponseEntity.ok(movimentacoes);
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<Page<MovimentacaoDTO>> buscarMovimentacoes(
+            @RequestParam(required = false) String tipo,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            Pageable pageable) {
+
+        Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorTipoEData(tipo, start, end, pageable);
         return ResponseEntity.ok(movimentacoes);
     }
 

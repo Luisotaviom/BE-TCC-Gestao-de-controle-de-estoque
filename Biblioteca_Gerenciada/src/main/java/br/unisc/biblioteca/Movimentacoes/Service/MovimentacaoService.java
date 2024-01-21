@@ -4,18 +4,17 @@ import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
 import br.unisc.biblioteca.Movimentacoes.Persistence.MovimentacaoPersistenceAdapter;
-import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
-import br.unisc.biblioteca.Produto.Persistence.ProdutoPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -53,7 +52,16 @@ public class MovimentacaoService {
     public Page<MovimentacaoDTO> buscarPorTipo(String tipo, Pageable pageable) {
         Page<MovimentacaoEntity> entidades = movimentacaoPersistenceAdapter.buscarPorTipo(tipo, pageable);
 
-        // Usando a funcionalidade existente de conversão de entidade para DTO
         return entidades.map(MovimentacaoEntity::convertEntidadeParaDto);
     }
+
+
+    public Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable) {
+        return movimentacaoPersistenceAdapter.buscarPorIntervaloDeData(start, end, pageable);
+    }
+
+    public Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable) {
+        return movimentacaoPersistenceAdapter.buscarPorTipoEData(tipo, start, end, pageable);
+    }
+
 }

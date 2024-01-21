@@ -8,6 +8,9 @@ import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public interface MovimentacaoPersistence {
 
 
@@ -23,5 +26,8 @@ public interface MovimentacaoPersistence {
 
     Page<MovimentacaoEntity> buscarPorTipo(String tipo, Pageable pageable);
 
+    Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable);
+
+    Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
 }
