@@ -2,6 +2,7 @@ package br.unisc.biblioteca.Movimentacoes.Persistence;
 
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
@@ -20,7 +21,7 @@ public interface MovimentacaoPersistence {
 
     void deleteMovimentacao(Long id);
 
-    Page<MovimentacaoDTO> buscarTodasMovimentacoes(Pageable pageable);
+    Page<MovimentacaoDetalhesDTO> buscarTodasMovimentacoes(Pageable pageable);
 
     Object buscarPorId(Long id);
 

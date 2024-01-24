@@ -7,11 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProdutoDto {
-    Long id;
-    String nome;
-    Long fornecedor_id;
+public class ProdutoDetalhesDTO {
     String fornecedorNome;
-    String categoria;
-    Boolean ativo;
 }

@@ -19,5 +19,6 @@ public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity
 
     Page<MovimentacaoEntity> findByTipoAndDataRegistroBetween(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
+    Page<MovimentacaoEntity> findAll(Pageable pageable);
 
 }

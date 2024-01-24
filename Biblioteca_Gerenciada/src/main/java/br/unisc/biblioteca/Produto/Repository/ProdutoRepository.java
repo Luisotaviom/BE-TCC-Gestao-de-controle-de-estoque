@@ -15,10 +15,11 @@ import java.util.Optional;
 public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long> {
     Optional<ProdutoEntity> findById(Long id);
 
-    @Query("SELECT p FROM ProdutoEntity p WHERE p.fornecedor_id = :fornecedorId")
-    Page<ProdutoEntity> findByFornecedorId(@Param("fornecedorId") Long fornecedorId, Pageable pageable);
+    Page<ProdutoEntity> findByFornecedorId(Long fornecedorId, Pageable pageable);
 
     Page<ProdutoEntity> findByAtivo(boolean ativo, Pageable pageable);
 
+    @Query("SELECT p FROM ProdutoEntity p JOIN FETCH p.fornecedor")
+    Page<ProdutoEntity> findAllWithFornecedor(Pageable pageable);
 
 }

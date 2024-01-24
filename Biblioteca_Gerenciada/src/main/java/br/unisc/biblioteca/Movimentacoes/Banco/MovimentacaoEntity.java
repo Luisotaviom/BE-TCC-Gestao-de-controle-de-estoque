@@ -3,6 +3,7 @@ package br.unisc.biblioteca.Movimentacoes.Banco;
 import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
@@ -49,19 +50,22 @@ public class MovimentacaoEntity {
     @JoinColumn(name = "fornecedor_id", referencedColumnName = "id")
     private FornecedorEntity fornecedor;
 
-    public static MovimentacaoDTO convertEntidadeParaDto(MovimentacaoEntity entity) {
-        MovimentacaoDTO dto = new MovimentacaoDTO();
+    public static MovimentacaoDetalhesDTO convertEntidadeParaDto(MovimentacaoEntity entity) {
+        MovimentacaoDetalhesDTO dto = new MovimentacaoDetalhesDTO();
         dto.setId(entity.getId());
         dto.setProduto_id(entity.getProduto().getId());
+        dto.setProdutoNome(entity.getProduto().getNome()); // Assumindo que ProdutoEntity tenha um campo 'nome'
         dto.setQuantidade(entity.getQuantidade());
         dto.setValor(entity.getValor());
         dto.setTipo(entity.getTipo());
         dto.setDataRegistro(entity.getDataRegistro());
         if (entity.getFornecedor() != null) {
             dto.setFornecedor_id(entity.getFornecedor().getId());
+            dto.setFornecedorNome(entity.getFornecedor().getNome()); // Assumindo que FornecedorEntity tenha um campo 'nome'
         }
         return dto;
     }
+
 
     public static MovimentacaoEntity criarEntidade(MovimentacaoDTO dto, FornecedorEntity fornecedor, ProdutoEntity produto) {
         return MovimentacaoEntity.builder()
@@ -73,6 +77,8 @@ public class MovimentacaoEntity {
                 .fornecedor(fornecedor)
                 .build();
     }
+
+
 
 }
 

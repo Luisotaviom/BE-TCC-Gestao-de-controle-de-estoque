@@ -2,6 +2,7 @@ package br.unisc.biblioteca.Movimentacoes.Controller;
 
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
 import br.unisc.biblioteca.Movimentacoes.Service.MovimentacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,8 +31,9 @@ public class MovimentacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<MovimentacaoDTO>> buscarTodasMovimentacoes(Pageable pageable) {
-        return ResponseEntity.ok(movimentacaoService.buscarTodasMovimentacoes(pageable));
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarTodasMovimentacoes(Pageable pageable) {
+        Page<MovimentacaoDetalhesDTO> page = movimentacaoService.buscarTodasMovimentacoes(pageable);
+        return ResponseEntity.ok(page);
     }
 
 

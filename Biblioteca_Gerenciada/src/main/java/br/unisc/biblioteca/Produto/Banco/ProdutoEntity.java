@@ -1,7 +1,9 @@
 package br.unisc.biblioteca.Produto.Banco;
 
+import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
+import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
+import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.EntidadeNaoEncontradaException;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,9 +23,9 @@ public class ProdutoEntity {
     @Column(nullable = false)
     String nome;
 
-
-    @Column(nullable = false)
-    Long fornecedor_id;
+    @ManyToOne
+    @JoinColumn(name = "fornecedor_id")
+    private FornecedorEntity fornecedor;
 
     @Column(nullable = false)
     String categoria;
@@ -33,17 +35,26 @@ public class ProdutoEntity {
 
 
     public static ProdutoDto converterEntidadeParaDto(ProdutoEntity entidade) {
-        return new ProdutoDto(entidade.getId(), entidade.getNome(), entidade.getFornecedor_id(), entidade.getCategoria(), entidade.getAtivo());
+        ProdutoDto dto = new ProdutoDto();
+        dto.setId(entidade.getId());
+        dto.setNome(entidade.getNome());
+        dto.setCategoria(entidade.getCategoria());
+        dto.setAtivo(entidade.getAtivo());
+        if (entidade.getFornecedor() != null) {
+            dto.setFornecedor_id(entidade.getFornecedor().getId());
+            dto.setFornecedorNome(entidade.getFornecedor().getNome());
+        }
+        return dto;
     }
-
-    public static ProdutoEntity criarEntidade(ProdutoDto dto) {
+    public static ProdutoEntity criarEntidade(ProdutoDto dto, FornecedorEntity fornecedor) {
         return ProdutoEntity.builder()
                 .nome(dto.getNome())
-                .fornecedor_id(dto.getFornecedor_id())
+                .fornecedor(fornecedor)
                 .categoria(dto.getCategoria())
                 .ativo(dto.getAtivo())
                 .build();
     }
+
 
 }
 

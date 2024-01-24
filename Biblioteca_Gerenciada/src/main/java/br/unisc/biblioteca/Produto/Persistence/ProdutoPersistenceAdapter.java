@@ -2,6 +2,7 @@ package br.unisc.biblioteca.Produto.Persistence;
 
 import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
+import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.EntidadeNaoEncontradaException;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
@@ -29,36 +30,41 @@ class ProdutoPersistenceAdapter implements ProdutoPersistence {
     private FornecedorRepository fornecedorRepository;
 
     @Override
-    public void criarProduto(Long id, ProdutoDto produtoDto) {
-        Optional<FornecedorEntity> fornecedorOptional = fornecedorRepository.findById(id);
-        FornecedorEntity fornecedor = fornecedorOptional.get();
-        var produtoEntidade = ProdutoEntity.criarEntidade(produtoDto);
-        produtoEntidade.setFornecedor_id(fornecedor.getId());
+    public void criarProduto(Long fornecedorId, ProdutoDto produtoDto) {
+        FornecedorEntity fornecedor = fornecedorRepository.findById(fornecedorId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Fornecedor não encontrado com ID: " + fornecedorId));
+
+        ProdutoEntity produtoEntidade = ProdutoEntity.builder()
+                .nome(produtoDto.getNome())
+                .fornecedor(fornecedor)
+                .categoria(produtoDto.getCategoria())
+                .ativo(produtoDto.getAtivo())
+                .build();
 
         produtoRepository.save(produtoEntidade);
     }
 
 
+
     @Override
     public void updateProduto(Long id, ProdutoDto produtoDto) {
-        var entidadeOptional = produtoRepository.findById(id);
-        if (entidadeOptional.isPresent()) {
-            var entidade = entidadeOptional.get();
-            entidade.setNome(StringUtils.isBlank(produtoDto.getNome()) ? entidade.getNome() : produtoDto.getNome());
-            entidade.setFornecedor_id(produtoDto.getFornecedor_id());
-            entidade.setCategoria(StringUtils.isBlank(produtoDto.getCategoria()) ? entidade.getCategoria() : produtoDto.getCategoria());
+        ProdutoEntity entidade = produtoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado com ID: " + id));
 
-            // Adicionar lógica para atualizar o status de ativação
-            if (produtoDto.getAtivo() != null) { // Supondo que getAtivo retorna Boolean para lidar com null
-                entidade.setAtivo(produtoDto.getAtivo());
-            }
-            produtoRepository.save(entidade);
-        } else {
-            // Lançar uma exceção específica que pode ser definida em seu projeto
-            throw new EntityNotFoundException("Fornecedor não encontrado com ID: " + id);
+        entidade.setNome(StringUtils.isBlank(produtoDto.getNome()) ? entidade.getNome() : produtoDto.getNome());
+        entidade.setCategoria(StringUtils.isBlank(produtoDto.getCategoria()) ? entidade.getCategoria() : produtoDto.getCategoria());
+
+        if (produtoDto.getFornecedor_id() != null && !produtoDto.getFornecedor_id().equals(entidade.getFornecedor().getId())) {
+            FornecedorEntity fornecedor = fornecedorRepository.findById(produtoDto.getFornecedor_id())
+                    .orElseThrow(() -> new EntityNotFoundException("Fornecedor não encontrado com ID: " + produtoDto.getFornecedor_id()));
+            entidade.setFornecedor(fornecedor);
         }
-    }
 
+        if (produtoDto.getAtivo() != null) {
+            entidade.setAtivo(produtoDto.getAtivo());
+        }
+        produtoRepository.save(entidade);
+    }
 
 
     @Override
@@ -69,7 +75,7 @@ class ProdutoPersistenceAdapter implements ProdutoPersistence {
 
     @Override
     public Page<ProdutoDto> buscarTodosProduto(Pageable pageable) {
-        return produtoRepository.findAll(pageable)
+        return produtoRepository.findAllWithFornecedor(pageable)
                 .map(ProdutoEntity::converterEntidadeParaDto);
     }
 

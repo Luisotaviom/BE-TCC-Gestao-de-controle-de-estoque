@@ -2,6 +2,7 @@ package br.unisc.biblioteca.Movimentacoes.Service;
 
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
 import br.unisc.biblioteca.Movimentacoes.Persistence.MovimentacaoPersistenceAdapter;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class MovimentacaoService {
         return movimentacaoPersistenceAdapter.buscarPorId(id);
     }
 
-    public Page<MovimentacaoDTO> buscarTodasMovimentacoes(Pageable pageable) {
+    public Page<MovimentacaoDetalhesDTO> buscarTodasMovimentacoes(Pageable pageable) {
         return movimentacaoPersistenceAdapter.buscarTodasMovimentacoes(pageable);
     }
 

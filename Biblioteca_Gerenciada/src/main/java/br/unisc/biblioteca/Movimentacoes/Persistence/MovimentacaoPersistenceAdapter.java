@@ -4,6 +4,7 @@ import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.EntidadeNaoEncontradaException;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
 import br.unisc.biblioteca.Movimentacoes.Repository.MovimentacaoRepository;
@@ -50,7 +51,7 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
         }
         ProdutoEntity produto = produtoOptional.get();
 
-        if (!produto.getFornecedor_id().equals(fornecedor.getId())) {
+        if (!produto.getFornecedor().equals(fornecedor.getId())) {
             throw new ValidacaoNegocioException("O produto selecionado não pertence ao fornecedor selecionado.");
         }
         MovimentacaoEntity movimentacaoEntidade = MovimentacaoEntity.criarEntidade(movimentacaoDto, fornecedor, produto);
@@ -100,10 +101,12 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
     }
 
     @Override
-    public Page<MovimentacaoDTO> buscarTodasMovimentacoes(Pageable pageable) {
+    public Page<MovimentacaoDetalhesDTO> buscarTodasMovimentacoes(Pageable pageable) {
         return movimentacaoRepository.findAll(pageable)
-                .map(MovimentacaoEntity::convertEntidadeParaDto);
+                .map(MovimentacaoEntity::convertEntidadeParaDto); // Método atualizado para converter para o DTO detalhado
     }
+
+
 
 
     @Override
