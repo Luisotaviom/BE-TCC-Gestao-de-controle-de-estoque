@@ -1,6 +1,5 @@
 package br.unisc.biblioteca.Produto.Service;
 
-import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
@@ -11,9 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -52,5 +48,10 @@ public class ProdutoService {
     public Page<ProdutoEntity> buscarTodos(Pageable pageable) {
         return persistence.buscarTodos(pageable);
     }
+
+    public Page<ProdutoEntity> buscarPorNome(String nome, Pageable pageable) {
+        return persistence.buscarPorNome(nome, pageable);
+    }
+
 
 }

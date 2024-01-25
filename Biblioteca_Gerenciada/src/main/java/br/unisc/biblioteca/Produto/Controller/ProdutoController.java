@@ -95,4 +95,15 @@ public class ProdutoController {
         return ResponseEntity.ok(produtosDTOs);
     }
 
+    @GetMapping("/produtosPorNome")
+    public ResponseEntity<Page<ProdutoDto>> buscarPorNome(
+            @RequestParam(value = "nome", required = false) String nome,
+            Pageable pageable) {
+        Page<ProdutoEntity> entityPage = produtoService.buscarPorNome(nome, pageable);
+        Page<ProdutoDto> dtoPage = entityPage.map(ProdutoEntity::converterEntidadeParaDto);
+        return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+    }
+
+
+
 }

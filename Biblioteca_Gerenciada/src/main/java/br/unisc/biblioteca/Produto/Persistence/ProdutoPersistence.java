@@ -27,5 +27,6 @@ public interface ProdutoPersistence {
 
     Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable);
 
+    Page<ProdutoEntity> buscarPorNome(String nome, Pageable pageable);
 
 }

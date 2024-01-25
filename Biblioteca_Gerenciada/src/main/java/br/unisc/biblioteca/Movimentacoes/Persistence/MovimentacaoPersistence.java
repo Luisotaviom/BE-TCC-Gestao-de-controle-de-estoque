@@ -4,12 +4,10 @@ import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
-import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public interface MovimentacaoPersistence {
@@ -30,5 +28,13 @@ public interface MovimentacaoPersistence {
     Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable);
 
     Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);
+
+    Page<MovimentacaoDetalhesDTO> gerarRelatorioSemanal(String tipo, Pageable pageable);
+
+    Page<MovimentacaoDetalhesDTO> gerarRelatorioMensal(String tipo, Pageable pageable);
+
+    BigDecimal calcularSomaValorPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
+
+    Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
 
 }

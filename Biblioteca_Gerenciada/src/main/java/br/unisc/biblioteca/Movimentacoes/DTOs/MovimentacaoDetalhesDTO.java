@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 public class MovimentacaoDetalhesDTO extends MovimentacaoDTO {
     private String produtoNome;
     private String fornecedorNome;
+    private SomaInfo somaInfo;
 
 }
 

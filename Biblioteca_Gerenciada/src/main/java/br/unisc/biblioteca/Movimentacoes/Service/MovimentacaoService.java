@@ -3,6 +3,7 @@ package br.unisc.biblioteca.Movimentacoes.Service;
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.RelatorioMovimentacaoDto;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
 import br.unisc.biblioteca.Movimentacoes.Persistence.MovimentacaoPersistenceAdapter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -63,6 +65,34 @@ public class MovimentacaoService {
 
     public Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable) {
         return movimentacaoPersistenceAdapter.buscarPorTipoEData(tipo, start, end, pageable);
+    }
+
+    public Page<MovimentacaoDetalhesDTO> gerarRelatorioSemanal(String tipo, Pageable pageable) {
+        return movimentacaoPersistenceAdapter.gerarRelatorioSemanal(tipo, pageable);
+    }
+
+    public Page<MovimentacaoDetalhesDTO> gerarRelatorioMensal(String tipo, Pageable pageable) {
+        return movimentacaoPersistenceAdapter.gerarRelatorioMensal(tipo, pageable);
+    }
+
+    public BigDecimal calcularSomaValorPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end) {
+        BigDecimal somaValores = movimentacaoPersistenceAdapter.calcularSomaValorPorTipoEData(tipo, start, end);
+
+        if (somaValores == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return somaValores;
+    }
+
+    public Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime start, LocalDateTime end) {
+        Integer somaQuantidades = movimentacaoPersistenceAdapter.calcularSomaQuantidadePorTipoEData(tipo, start, end);
+
+        if (somaQuantidades == null) {
+            return 0;
+        }
+
+        return somaQuantidades;
     }
 
 }

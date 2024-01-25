@@ -22,4 +22,6 @@ public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long> {
     @Query("SELECT p FROM ProdutoEntity p JOIN FETCH p.fornecedor")
     Page<ProdutoEntity> findAllWithFornecedor(Pageable pageable);
 
+    Page<ProdutoEntity> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
+
 }

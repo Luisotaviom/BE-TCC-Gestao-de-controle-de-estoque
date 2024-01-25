@@ -113,4 +113,14 @@ class ProdutoPersistenceAdapter implements ProdutoPersistence {
     public Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable) {
         return produtoRepository.findByAtivo(ativo, pageable);
     }
+
+    public Page<ProdutoEntity> buscarPorNome(String nome, Pageable pageable) {
+        if (nome == null || nome.trim().isEmpty()) {
+            return produtoRepository.findAll(pageable);
+        } else {
+            return produtoRepository.findByNomeContainingIgnoreCase(nome, pageable);
+        }
+    }
+
+
 }

@@ -3,8 +3,12 @@ package br.unisc.biblioteca.Movimentacoes.Controller;
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.RelatorioMovimentacaoDto;
+import br.unisc.biblioteca.Movimentacoes.DTOs.SomaInfo;
 import br.unisc.biblioteca.Movimentacoes.Service.MovimentacaoService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,6 +28,9 @@ import java.time.LocalDateTime;
 public class MovimentacaoController {
 
     private final MovimentacaoService movimentacaoService;
+
+    private static final Logger logger = LoggerFactory.getLogger(MovimentacaoController.class);
+
 
     @PostMapping
     public ResponseEntity<Object> criarMovimentacao(@RequestBody MovimentacaoDTO movimentacaoDto) {
@@ -99,5 +107,61 @@ public class MovimentacaoController {
         Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorTipoEData(tipo, start, end, pageable);
         return ResponseEntity.ok(movimentacoes);
     }
+
+    @GetMapping("/relatorio/semanal")
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> gerarRelatorioSemanal(
+            @RequestParam String tipo,
+            Pageable pageable
+    ) {
+        // Obtém o relatório semanal
+        Page<MovimentacaoDetalhesDTO> relatorio = movimentacaoService.gerarRelatorioSemanal(tipo, pageable);
+
+        // Calcula as somas
+        BigDecimal somaValores = relatorio.stream()
+                .map(MovimentacaoDetalhesDTO::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        Integer somaQuantidades = relatorio.stream()
+                .map(MovimentacaoDetalhesDTO::getQuantidade)
+                .reduce(0, Integer::sum);
+
+        // Cria um objeto com as somas
+        SomaInfo relatorioSoma = new SomaInfo();
+        relatorioSoma.setSomaValores(somaValores);
+        relatorioSoma.setSomaQuantidades(somaQuantidades);
+
+        // Define o objeto de soma no DTO de resposta
+        relatorio.getContent().forEach(dto -> dto.setSomaInfo(relatorioSoma));
+
+        return ResponseEntity.ok(relatorio);
+    }
+
+    @GetMapping("/relatorio/mensal")
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> gerarRelatorioMensal(
+            @RequestParam String tipo,
+            Pageable pageable
+    ) {
+        // Obtém o relatório mensal
+        Page<MovimentacaoDetalhesDTO> relatorio = movimentacaoService.gerarRelatorioMensal(tipo, pageable);
+
+        // Calcula as somas
+        BigDecimal somaValores = relatorio.stream()
+                .map(MovimentacaoDetalhesDTO::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        Integer somaQuantidades = relatorio.stream()
+                .map(MovimentacaoDetalhesDTO::getQuantidade)
+                .reduce(0, Integer::sum);
+
+        // Cria um objeto com as somas
+        SomaInfo relatorioSoma = new SomaInfo();
+        relatorioSoma.setSomaValores(somaValores);
+        relatorioSoma.setSomaQuantidades(somaQuantidades);
+
+        // Define o objeto de soma no DTO de resposta
+        relatorio.getContent().forEach(dto -> dto.setSomaInfo(relatorioSoma));
+
+        return ResponseEntity.ok(relatorio);
+    }
+
+
 
 }

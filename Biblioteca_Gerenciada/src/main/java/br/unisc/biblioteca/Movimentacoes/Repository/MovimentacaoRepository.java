@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -20,5 +21,13 @@ public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity
     Page<MovimentacaoEntity> findByTipoAndDataRegistroBetween(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
     Page<MovimentacaoEntity> findAll(Pageable pageable);
+
+    @Query("SELECT SUM(m.valor) FROM MovimentacaoEntity m WHERE m.tipo = :tipo AND m.dataRegistro BETWEEN :start AND :end")
+    BigDecimal calcularSomaValorPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
+
+    @Query("SELECT SUM(m.quantidade) FROM MovimentacaoEntity m WHERE m.tipo = :tipo AND m.dataRegistro BETWEEN :start AND :end")
+    Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
+
+
 
 }

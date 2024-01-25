@@ -4,6 +4,7 @@ import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
 import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.RelatorioMovimentacaoDto;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
 import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
 import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
@@ -76,6 +77,20 @@ public class MovimentacaoEntity {
                 .dataRegistro(dto.getDataRegistro())
                 .fornecedor(fornecedor)
                 .build();
+    }
+
+
+
+    public static RelatorioMovimentacaoDto converterEntidadeParaDto(MovimentacaoEntity entidade) {
+        RelatorioMovimentacaoDto dto = new RelatorioMovimentacaoDto();
+        dto.setId(entidade.getId());
+        dto.setProduto_id(entidade.getProduto().getId()); // Supondo que existe um método getProduto() na entidade.
+        dto.setQuantidade(entidade.getQuantidade());
+        dto.setValor(entidade.getValor());
+        dto.setTipo(entidade.getTipo());
+        dto.setDataRegistro(entidade.getDataRegistro());
+        dto.setFornecedor_id(entidade.getFornecedor().getId()); // Supondo que existe um método getFornecedor() na entidade.
+        return dto;
     }
 
 
