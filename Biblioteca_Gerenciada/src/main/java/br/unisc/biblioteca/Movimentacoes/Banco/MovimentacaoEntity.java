@@ -1,22 +1,15 @@
 package br.unisc.biblioteca.Movimentacoes.Banco;
 
 import br.unisc.biblioteca.Fornecedor.Banco.FornecedorEntity;
-import br.unisc.biblioteca.Fornecedor.Repository.FornecedorRepository;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
 import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
-import br.unisc.biblioteca.Movimentacoes.DTOs.RelatorioMovimentacaoDto;
 import br.unisc.biblioteca.Produto.Banco.ProdutoEntity;
-import br.unisc.biblioteca.Produto.DTOs.ProdutoDto;
-import br.unisc.biblioteca.Produto.DTOs.ProdutosDoFornecedorDto;
-import br.unisc.biblioteca.Produto.Repository.ProdutoRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "movimentacoes")
@@ -78,21 +71,6 @@ public class MovimentacaoEntity {
                 .fornecedor(fornecedor)
                 .build();
     }
-
-
-
-    public static RelatorioMovimentacaoDto converterEntidadeParaDto(MovimentacaoEntity entidade) {
-        RelatorioMovimentacaoDto dto = new RelatorioMovimentacaoDto();
-        dto.setId(entidade.getId());
-        dto.setProduto_id(entidade.getProduto().getId()); // Supondo que existe um método getProduto() na entidade.
-        dto.setQuantidade(entidade.getQuantidade());
-        dto.setValor(entidade.getValor());
-        dto.setTipo(entidade.getTipo());
-        dto.setDataRegistro(entidade.getDataRegistro());
-        dto.setFornecedor_id(entidade.getFornecedor().getId()); // Supondo que existe um método getFornecedor() na entidade.
-        return dto;
-    }
-
 
 
 }

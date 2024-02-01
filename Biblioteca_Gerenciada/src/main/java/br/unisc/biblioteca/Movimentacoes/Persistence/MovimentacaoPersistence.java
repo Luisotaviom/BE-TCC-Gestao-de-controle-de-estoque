@@ -1,8 +1,7 @@
 package br.unisc.biblioteca.Movimentacoes.Persistence;
 
 import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
-import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
-import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
+import br.unisc.biblioteca.Movimentacoes.DTOs.*;
 import br.unisc.biblioteca.Movimentacoes.Persistence.Exceptions.ValidacaoNegocioException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +28,18 @@ public interface MovimentacaoPersistence {
 
     Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
-    Page<MovimentacaoDetalhesDTO> gerarRelatorioSemanal(String tipo, Pageable pageable);
+    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(Pageable pageable);
 
-    Page<MovimentacaoDetalhesDTO> gerarRelatorioMensal(String tipo, Pageable pageable);
+    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesMensais(Pageable pageable);
 
     BigDecimal calcularSomaValorPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
 
     Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
+
+    RelatorioSemanalSaldoDTO calcularRelatorioSemanalSaldo();
+
+    RelatorioSemanalEntradasDTO calcularRelatorioSemanalEntradas();
+
+    RelatorioSemanalSaidasDTO calcularRelatorioSemanalSaidas();
 
 }

@@ -1,10 +1,6 @@
 package br.unisc.biblioteca.Movimentacoes.Controller;
 
-import br.unisc.biblioteca.Movimentacoes.Banco.MovimentacaoEntity;
-import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDTO;
-import br.unisc.biblioteca.Movimentacoes.DTOs.MovimentacaoDetalhesDTO;
-import br.unisc.biblioteca.Movimentacoes.DTOs.RelatorioMovimentacaoDto;
-import br.unisc.biblioteca.Movimentacoes.DTOs.SomaInfo;
+import br.unisc.biblioteca.Movimentacoes.DTOs.*;
 import br.unisc.biblioteca.Movimentacoes.Service.MovimentacaoService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,9 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -109,59 +105,54 @@ public class MovimentacaoController {
     }
 
     @GetMapping("/relatorio/semanal")
-    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> gerarRelatorioSemanal(
-            @RequestParam String tipo,
-            Pageable pageable
-    ) {
-        // Obtém o relatório semanal
-        Page<MovimentacaoDetalhesDTO> relatorio = movimentacaoService.gerarRelatorioSemanal(tipo, pageable);
+    public ResponseEntity<Page<MovimentacaoDTO>> buscarMovimentacoesSemanais(
+            @RequestParam(required = false) String tipo,
+            Pageable pageable) {
+        LocalDateTime hoje = LocalDateTime.now();
+        LocalDateTime start = hoje.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+        LocalDateTime end = hoje.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
-        // Calcula as somas
-        BigDecimal somaValores = relatorio.stream()
-                .map(MovimentacaoDetalhesDTO::getValor)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        Integer somaQuantidades = relatorio.stream()
-                .map(MovimentacaoDetalhesDTO::getQuantidade)
-                .reduce(0, Integer::sum);
+        Page<MovimentacaoDTO> page;
+        if ("E".equals(tipo) || "S".equals(tipo)) {
+            page = movimentacaoService.buscarPorTipoEData(tipo, start, end, pageable);
+        } else {
+            page = movimentacaoService.buscarPorIntervaloDeData(start, end, pageable);
+        }
 
-        // Cria um objeto com as somas
-        SomaInfo relatorioSoma = new SomaInfo();
-        relatorioSoma.setSomaValores(somaValores);
-        relatorioSoma.setSomaQuantidades(somaQuantidades);
-
-        // Define o objeto de soma no DTO de resposta
-        relatorio.getContent().forEach(dto -> dto.setSomaInfo(relatorioSoma));
-
-        return ResponseEntity.ok(relatorio);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/relatorio/mensal")
-    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> gerarRelatorioMensal(
-            @RequestParam String tipo,
-            Pageable pageable
-    ) {
-        // Obtém o relatório mensal
-        Page<MovimentacaoDetalhesDTO> relatorio = movimentacaoService.gerarRelatorioMensal(tipo, pageable);
+    public ResponseEntity<Page<MovimentacaoDTO>> buscarMovimentacoesMensais(
+            @RequestParam(required = false) String tipo,
+            Pageable pageable) {
+        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime inicioDoMes = agora.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate().atStartOfDay();
+        LocalDateTime fimDoMes = agora.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate().atTime(23, 59);
 
-        // Calcula as somas
-        BigDecimal somaValores = relatorio.stream()
-                .map(MovimentacaoDetalhesDTO::getValor)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        Integer somaQuantidades = relatorio.stream()
-                .map(MovimentacaoDetalhesDTO::getQuantidade)
-                .reduce(0, Integer::sum);
+        Page<MovimentacaoDTO> page;
+        if ("E".equals(tipo) || "S".equals(tipo)) {
+            page = movimentacaoService.buscarPorTipoEData(tipo, inicioDoMes, fimDoMes, pageable);
+        } else {
+            page = movimentacaoService.buscarPorIntervaloDeData(inicioDoMes, fimDoMes, pageable);
+        }
 
-        // Cria um objeto com as somas
-        SomaInfo relatorioSoma = new SomaInfo();
-        relatorioSoma.setSomaValores(somaValores);
-        relatorioSoma.setSomaQuantidades(somaQuantidades);
-
-        // Define o objeto de soma no DTO de resposta
-        relatorio.getContent().forEach(dto -> dto.setSomaInfo(relatorioSoma));
-
-        return ResponseEntity.ok(relatorio);
+        return ResponseEntity.ok(page);
     }
 
 
+    @GetMapping("/relatorio-semanal")
+    public ResponseEntity<?> calcularRelatorioSemanal(@RequestParam(required = false) String tipo) {
+        if ("E".equals(tipo)) {
+            RelatorioSemanalEntradasDTO relatorioEntradas = movimentacaoService.calcularRelatorioSemanalEntradas();
+            return ResponseEntity.ok(relatorioEntradas);
+        } else if ("S".equals(tipo)) {
+            RelatorioSemanalSaidasDTO relatorioSaidas = movimentacaoService.calcularRelatorioSemanalSaidas();
+            return ResponseEntity.ok(relatorioSaidas);
+        } else {
+            RelatorioSemanalSaldoDTO relatorioSaldo = movimentacaoService.calcularRelatorioSemanalSaldo();
+            return ResponseEntity.ok(relatorioSaldo);
+        }
+    }
 
 }
