@@ -53,6 +53,7 @@ public class MovimentacaoEntity {
         dto.setValor(entity.getValor());
         dto.setTipo(entity.getTipo());
         dto.setDataRegistro(entity.getDataRegistro());
+        dto.setCategoria(entity.getProduto().getCategoria());
         if (entity.getFornecedor() != null) {
             dto.setFornecedor_id(entity.getFornecedor().getId());
             dto.setFornecedorNome(entity.getFornecedor().getNome()); // Assumindo que FornecedorEntity tenha um campo 'nome'
