@@ -63,7 +63,7 @@ public class MovimentacaoService {
         return movimentacaoPersistenceAdapter.buscarPorTipoEData(tipo, start, end, pageable);
     }
 
-    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(Pageable pageable) {
+    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(LocalDateTime start, LocalDateTime end, Pageable pageable) {
         return movimentacaoPersistenceAdapter.buscarMovimentacoesSemanais(pageable);
     }
 
@@ -87,6 +87,11 @@ public class MovimentacaoService {
         BigDecimal saldoValor = relatorioEntradas.getSomaValorEntradas().subtract(relatorioSaidas.getSomaValorSaidas());
 
         return new RelatorioSemanalSaldoDTO(saldoQuantidade, saldoValor);
+    }
+
+    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData( LocalDateTime start, LocalDateTime end, Pageable pageable) {
+
+        return movimentacaoPersistenceAdapter.buscarMovimentacoesPorTipoECategoriaEData(start, end, pageable);
     }
 
 

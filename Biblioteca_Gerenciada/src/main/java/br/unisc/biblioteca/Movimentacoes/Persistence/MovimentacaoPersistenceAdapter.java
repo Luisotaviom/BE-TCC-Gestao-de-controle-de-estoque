@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
@@ -131,13 +132,23 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
 
     @Override
     public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(Pageable pageable) {
-        LocalDateTime agora = LocalDateTime.now();
-        LocalDateTime inicioDaSemana = agora.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).toLocalDate().atStartOfDay();
-        LocalDateTime fimDaSemana = agora.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).toLocalDate().atTime(23, 59);
+        ZoneId zoneId = ZoneId.systemDefault();
 
-        return movimentacaoRepository.findAllByDataRegistroBetween(inicioDaSemana, fimDaSemana, pageable)
+        LocalDateTime agora = LocalDateTime.now(zoneId);
+
+        LocalDateTime start = agora
+                .with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
+                .toLocalDate()
+                .atStartOfDay();
+        LocalDateTime end = agora
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY))
+                .toLocalDate()
+                .atTime(23, 59);
+
+        return movimentacaoRepository.findAllByDataRegistroBetween(start, end, pageable)
                 .map(MovimentacaoEntity::convertEntidadeParaDto);
     }
+
 
     @Override
     public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesMensais(Pageable pageable) {
@@ -147,6 +158,15 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
 
         return movimentacaoRepository.findAllByDataRegistroBetween(inicioDoMes, fimDoMes, pageable)
                 .map(MovimentacaoEntity::convertEntidadeParaDto);
+    }
+
+    @Override
+    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(LocalDateTime start, LocalDateTime end, Pageable pageable) {
+
+        return movimentacaoRepository.buscarMovimentacoesPorTipoECategoriaEData(
+                start,
+                end,
+                pageable).map(MovimentacaoEntity::convertEntidadeParaDto);
     }
 
     @Override

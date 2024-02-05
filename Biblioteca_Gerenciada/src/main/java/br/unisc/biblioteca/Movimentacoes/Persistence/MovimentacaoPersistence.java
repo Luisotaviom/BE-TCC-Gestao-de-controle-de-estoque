@@ -42,4 +42,6 @@ public interface MovimentacaoPersistence {
 
     RelatorioSemanalSaidasDTO calcularRelatorioSemanalSaidas();
 
+    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(LocalDateTime start, LocalDateTime end, Pageable pageable);
+
 }

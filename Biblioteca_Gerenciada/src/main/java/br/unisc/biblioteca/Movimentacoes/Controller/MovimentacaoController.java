@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
 @CrossOrigin(origins = "*")
@@ -105,43 +106,43 @@ public class MovimentacaoController {
     }
 
     @GetMapping("/relatorio/semanal")
-    public ResponseEntity<Page<MovimentacaoDTO>> buscarMovimentacoesSemanais(
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarMovimentacoesSemanais(
             @RequestParam(required = false) String tipo,
+            @RequestParam(required = false) String categoria,
             Pageable pageable) {
-        LocalDateTime hoje = LocalDateTime.now();
-        LocalDateTime start = hoje.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        LocalDateTime end = hoje.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
-        Page<MovimentacaoDTO> page;
-        if ("E".equals(tipo) || "S".equals(tipo)) {
-            page = movimentacaoService.buscarPorTipoEData(tipo, start, end, pageable);
+        LocalDateTime start = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
+        LocalDateTime end = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).toLocalDate().atTime(23, 59, 59);
+
+
+        // Imprime os valores de 'start' e 'end' para depuração
+        System.out.println("Start: " + start);
+        System.out.println("End: " + end);
+
+        Page<MovimentacaoDetalhesDTO> page;
+
+        if (tipo == null && categoria == null) {
+            // Se tipo e categoria não foram fornecidos, busca todas as movimentações da semana
+            page = movimentacaoService.buscarMovimentacoesSemanais(start, end, pageable);
         } else {
-            page = movimentacaoService.buscarPorIntervaloDeData(start, end, pageable);
+            // Se tipo e/ou categoria foram fornecidos, aplica os filtros
+            page = movimentacaoService.buscarMovimentacoesPorTipoECategoriaEData(start, end, pageable);
         }
 
         return ResponseEntity.ok(page);
     }
+
+
+
 
     @GetMapping("/relatorio/mensal")
-    public ResponseEntity<Page<MovimentacaoDTO>> buscarMovimentacoesMensais(
-            @RequestParam(required = false) String tipo,
-            Pageable pageable) {
-        LocalDateTime agora = LocalDateTime.now();
-        LocalDateTime inicioDoMes = agora.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate().atStartOfDay();
-        LocalDateTime fimDoMes = agora.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate().atTime(23, 59);
-
-        Page<MovimentacaoDTO> page;
-        if ("E".equals(tipo) || "S".equals(tipo)) {
-            page = movimentacaoService.buscarPorTipoEData(tipo, inicioDoMes, fimDoMes, pageable);
-        } else {
-            page = movimentacaoService.buscarPorIntervaloDeData(inicioDoMes, fimDoMes, pageable);
-        }
-
-        return ResponseEntity.ok(page);
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarMovimentacoesMensais(Pageable pageable) {
+        Page<MovimentacaoDetalhesDTO> movimentacoes = movimentacaoService.buscarMovimentacoesMensais(pageable);
+        return ResponseEntity.ok(movimentacoes);
     }
 
 
-    @GetMapping("/relatorio-semanal")
+    @GetMapping("/calcularRelatorioSemanal")
     public ResponseEntity<?> calcularRelatorioSemanal(@RequestParam(required = false) String tipo) {
         if ("E".equals(tipo)) {
             RelatorioSemanalEntradasDTO relatorioEntradas = movimentacaoService.calcularRelatorioSemanalEntradas();

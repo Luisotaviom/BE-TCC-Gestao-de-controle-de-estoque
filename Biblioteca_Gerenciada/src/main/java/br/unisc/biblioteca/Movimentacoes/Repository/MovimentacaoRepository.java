@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity, Long> {
@@ -27,6 +28,12 @@ public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity
 
     @Query("SELECT SUM(m.quantidade) FROM MovimentacaoEntity m WHERE m.tipo = :tipo AND m.dataRegistro BETWEEN :start AND :end")
     Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
+
+    @Query("SELECT m FROM MovimentacaoEntity m WHERE m.dataRegistro >= :start AND m.dataRegistro <= :end")
+    Page<MovimentacaoEntity> buscarMovimentacoesPorTipoECategoriaEData(
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end,
+            Pageable pageable);
 
 
 
