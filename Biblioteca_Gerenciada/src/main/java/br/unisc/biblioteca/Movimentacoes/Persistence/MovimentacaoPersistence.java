@@ -42,6 +42,6 @@ public interface MovimentacaoPersistence {
 
     RelatorioSemanalSaidasDTO calcularRelatorioSemanalSaidas();
 
-    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
 }

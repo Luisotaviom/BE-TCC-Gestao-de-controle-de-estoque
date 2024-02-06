@@ -29,11 +29,10 @@ public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity
     @Query("SELECT SUM(m.quantidade) FROM MovimentacaoEntity m WHERE m.tipo = :tipo AND m.dataRegistro BETWEEN :start AND :end")
     Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
 
-    @Query("SELECT m FROM MovimentacaoEntity m WHERE m.dataRegistro >= :start AND m.dataRegistro <= :end")
-    Page<MovimentacaoEntity> buscarMovimentacoesPorTipoECategoriaEData(
-            @Param("start") LocalDateTime start,
-            @Param("end") LocalDateTime end,
-            Pageable pageable);
+    @Query("SELECT m FROM MovimentacaoEntity m JOIN m.produto p WHERE (:tipo IS NULL OR m.tipo = :tipo) AND (:categoria IS NULL OR p.categoria = :categoria) AND m.dataRegistro BETWEEN :inicio AND :fim")
+    Page<MovimentacaoEntity> buscarMovimentacoesPorTipoECategoriaEData(@Param("tipo") String tipo, @Param("categoria") String categoria, @Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim, Pageable pageable);
+
+
 
 
 

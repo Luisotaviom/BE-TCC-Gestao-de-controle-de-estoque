@@ -89,9 +89,9 @@ public class MovimentacaoService {
         return new RelatorioSemanalSaldoDTO(saldoQuantidade, saldoValor);
     }
 
-    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData( LocalDateTime start, LocalDateTime end, Pageable pageable) {
+    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable) {
 
-        return movimentacaoPersistenceAdapter.buscarMovimentacoesPorTipoECategoriaEData(start, end, pageable);
+        return movimentacaoPersistenceAdapter.buscarMovimentacoesPorTipoECategoriaEData(tipo, categoria, start, end, pageable);
     }
 
 

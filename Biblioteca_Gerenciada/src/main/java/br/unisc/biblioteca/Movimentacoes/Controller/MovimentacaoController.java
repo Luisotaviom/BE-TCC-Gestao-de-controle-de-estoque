@@ -114,32 +114,26 @@ public class MovimentacaoController {
         LocalDateTime start = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
         LocalDateTime end = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).toLocalDate().atTime(23, 59, 59);
 
-
-        // Imprime os valores de 'start' e 'end' para depuração
-        System.out.println("Start: " + start);
-        System.out.println("End: " + end);
-
-        Page<MovimentacaoDetalhesDTO> page;
-
-        if (tipo == null && categoria == null) {
-            // Se tipo e categoria não foram fornecidos, busca todas as movimentações da semana
-            page = movimentacaoService.buscarMovimentacoesSemanais(start, end, pageable);
-        } else {
-            // Se tipo e/ou categoria foram fornecidos, aplica os filtros
-            page = movimentacaoService.buscarMovimentacoesPorTipoECategoriaEData(start, end, pageable);
-        }
+        Page<MovimentacaoDetalhesDTO> page = movimentacaoService.buscarMovimentacoesPorTipoECategoriaEData(tipo, categoria, start, end, pageable);
 
         return ResponseEntity.ok(page);
     }
 
 
-
-
     @GetMapping("/relatorio/mensal")
-    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarMovimentacoesMensais(Pageable pageable) {
-        Page<MovimentacaoDetalhesDTO> movimentacoes = movimentacaoService.buscarMovimentacoesMensais(pageable);
-        return ResponseEntity.ok(movimentacoes);
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarMovimentacoesMensais(
+            @RequestParam(required = false) String tipo,
+            @RequestParam(required = false) String categoria,
+            Pageable pageable) {
+
+        LocalDateTime start = LocalDateTime.now().with(TemporalAdjusters.firstDayOfMonth()).toLocalDate().atStartOfDay();
+        LocalDateTime end = LocalDateTime.now().with(TemporalAdjusters.lastDayOfMonth()).toLocalDate().atTime(23, 59, 59);
+
+        Page<MovimentacaoDetalhesDTO> page = movimentacaoService.buscarMovimentacoesPorTipoECategoriaEData(tipo, categoria, start, end, pageable);
+
+        return ResponseEntity.ok(page);
     }
+
 
 
     @GetMapping("/calcularRelatorioSemanal")
