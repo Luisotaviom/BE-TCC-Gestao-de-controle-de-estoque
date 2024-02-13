@@ -119,6 +119,15 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
     }
 
     @Override
+    public Page<MovimentacaoEntity> buscarPorCategoria(String categoria, Pageable pageable) {
+        if ("Gas".equals(categoria) || "Agua".equals(categoria)) {
+            return movimentacaoRepository.findByProdutoCategoria(categoria, pageable);
+        } else {
+            return movimentacaoRepository.findAll(pageable);
+        }
+    }
+
+    @Override
     public Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable) {
         Page<MovimentacaoEntity> page = movimentacaoRepository.findAllByDataRegistroBetween(start, end, pageable);
         return page.map(MovimentacaoEntity::convertEntidadeParaDto);

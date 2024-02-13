@@ -84,6 +84,18 @@ public class MovimentacaoController {
         return ResponseEntity.ok(movimentacoes);
     }
 
+    @GetMapping("/buscarPorCategoria")
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> listMovimentacoesPorCategoria(
+            @RequestParam(required = false) String categoria,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MovimentacaoDetalhesDTO> movimentacoes = movimentacaoService.buscarPorCategoria(categoria, pageable);
+
+        return ResponseEntity.ok(movimentacoes);
+    }
+
     @GetMapping("/buscarPorData")
     public ResponseEntity<Page<MovimentacaoDTO>> buscarPorData(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,

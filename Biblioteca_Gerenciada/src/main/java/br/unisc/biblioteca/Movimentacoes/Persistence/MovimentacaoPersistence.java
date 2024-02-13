@@ -24,6 +24,8 @@ public interface MovimentacaoPersistence {
 
     Page<MovimentacaoEntity> buscarPorTipo(String tipo, Pageable pageable);
 
+    Page<MovimentacaoEntity> buscarPorCategoria(String categoria, Pageable pageable);
+
     Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable);
 
     Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);

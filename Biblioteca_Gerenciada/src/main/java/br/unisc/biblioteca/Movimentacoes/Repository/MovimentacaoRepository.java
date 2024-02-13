@@ -17,6 +17,8 @@ import java.util.Optional;
 public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity, Long> {
     Page<MovimentacaoEntity> findByTipo(String tipo, Pageable pageable);
 
+    Page<MovimentacaoEntity> findByProdutoCategoria(String categoria, Pageable pageable);
+
     Page<MovimentacaoEntity> findAllByDataRegistroBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
 
     Page<MovimentacaoEntity> findByTipoAndDataRegistroBetween(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);

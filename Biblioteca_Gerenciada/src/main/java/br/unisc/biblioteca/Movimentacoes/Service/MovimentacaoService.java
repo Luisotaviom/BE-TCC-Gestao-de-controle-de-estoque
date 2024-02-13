@@ -55,6 +55,12 @@ public class MovimentacaoService {
         return entidades.map(MovimentacaoEntity::convertEntidadeParaDto);
     }
 
+    public Page<MovimentacaoDetalhesDTO> buscarPorCategoria(String categoria, Pageable pageable) {
+        Page<MovimentacaoEntity> entidades = movimentacaoPersistenceAdapter.buscarPorCategoria(categoria, pageable);
+
+        return entidades.map(MovimentacaoEntity::convertEntidadeParaDto);
+    }
+
     public Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable) {
         return movimentacaoPersistenceAdapter.buscarPorIntervaloDeData(start, end, pageable);
     }
