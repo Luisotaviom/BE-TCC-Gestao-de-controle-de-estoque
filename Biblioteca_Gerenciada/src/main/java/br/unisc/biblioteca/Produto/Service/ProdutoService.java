@@ -41,16 +41,13 @@ public class ProdutoService {
         return persistence.buscarProdutosDoFornecedor(fornecedorId, pageable);
     }
 
-    public Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable) {
-        return persistence.buscarProdutosPorStatus(ativo, pageable);
-    }
-
     public Page<ProdutoEntity> buscarTodos(Pageable pageable) {
         return persistence.buscarTodos(pageable);
     }
 
-    public Page<ProdutoEntity> buscarPorNome(String nome, Pageable pageable) {
-        return persistence.buscarPorNome(nome, pageable);
+
+    public Page<ProdutoEntity> buscarPorNomeEStatus(Boolean ativo, String nome, Pageable pageable) {
+        return persistence.buscarPorNomeEStatus(nome, ativo, pageable);
     }
 
 

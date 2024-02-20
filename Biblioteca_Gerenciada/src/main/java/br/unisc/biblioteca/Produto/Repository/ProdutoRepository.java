@@ -17,11 +17,10 @@ public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long> {
 
     Page<ProdutoEntity> findByFornecedorId(Long fornecedorId, Pageable pageable);
 
-    Page<ProdutoEntity> findByAtivo(boolean ativo, Pageable pageable);
-
     @Query("SELECT p FROM ProdutoEntity p JOIN FETCH p.fornecedor")
     Page<ProdutoEntity> findAllWithFornecedor(Pageable pageable);
 
-    Page<ProdutoEntity> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
+    @Query("SELECT p FROM ProdutoEntity p WHERE (:nome IS NULL OR p.nome LIKE %:nome%) AND (:ativo IS NULL OR p.ativo = :ativo)")
+    Page<ProdutoEntity> findByNomeContainingIgnoreCaseAndAtivo(String nome, Boolean ativo, Pageable pageable);
 
 }

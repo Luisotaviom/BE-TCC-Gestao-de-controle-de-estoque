@@ -15,9 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -110,17 +108,10 @@ class ProdutoPersistenceAdapter implements ProdutoPersistence {
     }
 
     @Override
-    public Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable) {
-        return produtoRepository.findByAtivo(ativo, pageable);
+    public Page<ProdutoEntity> buscarPorNomeEStatus(String nome, Boolean ativo, Pageable pageable) {
+        return produtoRepository.findByNomeContainingIgnoreCaseAndAtivo(nome, ativo, pageable);
     }
 
-    public Page<ProdutoEntity> buscarPorNome(String nome, Pageable pageable) {
-        if (nome == null || nome.trim().isEmpty()) {
-            return produtoRepository.findAll(pageable);
-        } else {
-            return produtoRepository.findByNomeContainingIgnoreCase(nome, pageable);
-        }
-    }
 
 
 }

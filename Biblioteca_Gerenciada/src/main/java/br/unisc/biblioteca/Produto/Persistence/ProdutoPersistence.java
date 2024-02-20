@@ -24,9 +24,6 @@ public interface ProdutoPersistence {
     Page<ProdutosDoFornecedorDto> buscarProdutosDoFornecedor(Long fornecedorId, Pageable pageable);
 
     Page<ProdutoEntity> buscarTodos(Pageable pageable);
-
-    Page<ProdutoEntity> buscarProdutosPorStatus(boolean ativo, Pageable pageable);
-
-    Page<ProdutoEntity> buscarPorNome(String nome, Pageable pageable);
-
+    
+    Page<ProdutoEntity> buscarPorNomeEStatus(String nome, Boolean ativo, Pageable pageable);
 }

@@ -75,34 +75,17 @@ public class ProdutoController {
         return ResponseEntity.ok(produtos);
     }
 
-    @GetMapping("/buscarPorStatus")
-    public ResponseEntity<Page<ProdutoDto>> listProdutosPorStatus(
-            @RequestParam(required = false) Boolean ativo,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<ProdutoEntity> produtoEntities;
-
-        if (ativo != null) {
-            produtoEntities = produtoService.buscarProdutosPorStatus(ativo, pageable);
-        } else {
-            produtoEntities = produtoService.buscarTodos(pageable);
-        }
-
-        Page<ProdutoDto> produtosDTOs = produtoEntities.map(ProdutoEntity::converterEntidadeParaDto);
-
-        return ResponseEntity.ok(produtosDTOs);
-    }
-
-    @GetMapping("/produtosPorNome")
-    public ResponseEntity<Page<ProdutoDto>> buscarPorNome(
+    @GetMapping("/NomeEStatus")
+    public ResponseEntity<Page<ProdutoDto>> buscarProdutos(
             @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "ativo", required = false) Boolean ativo,
             Pageable pageable) {
-        Page<ProdutoEntity> entityPage = produtoService.buscarPorNome(nome, pageable);
+
+        Page<ProdutoEntity> entityPage = produtoService.buscarPorNomeEStatus(ativo, nome, pageable);
         Page<ProdutoDto> dtoPage = entityPage.map(ProdutoEntity::converterEntidadeParaDto);
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
+
 
 
 
