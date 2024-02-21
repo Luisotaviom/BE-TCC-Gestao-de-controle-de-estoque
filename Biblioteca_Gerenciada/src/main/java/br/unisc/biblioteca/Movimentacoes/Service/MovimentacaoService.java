@@ -69,7 +69,7 @@ public class MovimentacaoService {
         return movimentacaoPersistenceAdapter.buscarPorTipoEData(tipo, start, end, pageable);
     }
 
-    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(LocalDateTime start, LocalDateTime end, Pageable pageable) {
+    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(Pageable pageable) {
         return movimentacaoPersistenceAdapter.buscarMovimentacoesSemanais(pageable);
     }
 

@@ -76,6 +76,12 @@ ALTER TABLE fornecedores
 ALTER TABLE produtos
     ADD COLUMN ativo boolean NOT NULL DEFAULT true;
 
-
+-- changeset luis:criar-tabela-users
+CREATE TABLE users (
+       id TEXT PRIMARY KEY UNIQUE NOT NULL,
+       login TEXT NOT NULL UNIQUE,
+       password TEXT NOT NULL,
+       role TEXT NOT NULL
+);
 
 

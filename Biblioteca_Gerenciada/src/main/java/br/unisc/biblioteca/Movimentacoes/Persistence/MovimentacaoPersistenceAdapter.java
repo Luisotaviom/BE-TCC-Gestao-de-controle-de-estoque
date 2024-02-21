@@ -141,20 +141,11 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
 
     @Override
     public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(Pageable pageable) {
-        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime inicioDaSemana = agora.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
+        LocalDateTime fimDaSemana = agora.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).toLocalDate().atTime(23, 59);
 
-        LocalDateTime agora = LocalDateTime.now(zoneId);
-
-        LocalDateTime start = agora
-                .with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
-                .toLocalDate()
-                .atStartOfDay();
-        LocalDateTime end = agora
-                .with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY))
-                .toLocalDate()
-                .atTime(23, 59);
-
-        return movimentacaoRepository.findAllByDataRegistroBetween(start, end, pageable)
+        return movimentacaoRepository.findAllByDataRegistroBetween(inicioDaSemana, fimDaSemana, pageable)
                 .map(MovimentacaoEntity::convertEntidadeParaDto);
     }
 
