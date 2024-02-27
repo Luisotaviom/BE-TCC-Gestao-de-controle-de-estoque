@@ -1,4 +1,4 @@
 package br.unisc.biblioteca.User.DTOs;
 
-public record AuthenticationDTO(String login, String password) {
+public record AuthenticationDTO(String username, String password) {
 }

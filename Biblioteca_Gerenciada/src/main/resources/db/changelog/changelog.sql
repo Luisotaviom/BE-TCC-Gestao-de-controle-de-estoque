@@ -84,4 +84,7 @@ CREATE TABLE users (
        role TEXT NOT NULL
 );
 
+-- changeset luis:rename-login
+ALTER TABLE users RENAME COLUMN login TO username;
+
 
