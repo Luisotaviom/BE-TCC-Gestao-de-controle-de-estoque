@@ -22,28 +22,11 @@ public interface MovimentacaoPersistence {
 
     Object buscarPorId(Long id);
 
-    Page<MovimentacaoEntity> buscarPorTipo(String tipo, Pageable pageable);
 
-    Page<MovimentacaoEntity> buscarPorCategoria(String categoria, Pageable pageable);
+    Page<MovimentacaoDetalhesDTO> buscarPorTipoECategoria(String tipo, String categoria, Pageable pageable);
 
-    Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable);
-
-    Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable);
-
-    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(Pageable pageable);
-
-    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesMensais(Pageable pageable);
-
-    BigDecimal calcularSomaValorPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
-
-    Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime start, LocalDateTime end);
-
-    RelatorioSemanalSaldoDTO calcularRelatorioSemanalSaldo();
-
-    RelatorioSemanalEntradasDTO calcularRelatorioSemanalEntradas();
-
-    RelatorioSemanalSaidasDTO calcularRelatorioSemanalSaidas();
 
     Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable);
+
 
 }

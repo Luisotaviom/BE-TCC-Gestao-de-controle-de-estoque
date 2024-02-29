@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
@@ -92,6 +91,7 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
         movimentacaoRepository.deleteById(id);
     }
 
+    @Override
     public MovimentacaoDTO buscarPorId(Long id) {
         Optional<MovimentacaoEntity> movimentacaoOptional = movimentacaoRepository.findById(id);
 
@@ -109,56 +109,7 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
                 .map(MovimentacaoEntity::convertEntidadeParaDto);
     }
 
-    @Override
-    public Page<MovimentacaoEntity> buscarPorTipo(String tipo, Pageable pageable) {
-        if ("E".equals(tipo) || "S".equals(tipo)) {
-            return movimentacaoRepository.findByTipo(tipo, pageable);
-        } else {
-            return movimentacaoRepository.findAll(pageable);
-        }
-    }
 
-    @Override
-    public Page<MovimentacaoEntity> buscarPorCategoria(String categoria, Pageable pageable) {
-        if ("Gas".equals(categoria) || "Agua".equals(categoria)) {
-            return movimentacaoRepository.findByProdutoCategoria(categoria, pageable);
-        } else {
-            return movimentacaoRepository.findAll(pageable);
-        }
-    }
-
-    @Override
-    public Page<MovimentacaoDTO> buscarPorIntervaloDeData(LocalDateTime start, LocalDateTime end, Pageable pageable) {
-        Page<MovimentacaoEntity> page = movimentacaoRepository.findAllByDataRegistroBetween(start, end, pageable);
-        return page.map(MovimentacaoEntity::convertEntidadeParaDto);
-    }
-
-    @Override
-    public Page<MovimentacaoDTO> buscarPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end, Pageable pageable) {
-        Page<MovimentacaoEntity> page = movimentacaoRepository.findByTipoAndDataRegistroBetween(tipo, start, end, pageable);
-        return page.map(MovimentacaoEntity::convertEntidadeParaDto);
-    }
-
-    @Override
-    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesSemanais(Pageable pageable) {
-        LocalDateTime agora = LocalDateTime.now();
-        LocalDateTime inicioDaSemana = agora.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
-        LocalDateTime fimDaSemana = agora.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).toLocalDate().atTime(23, 59);
-
-        return movimentacaoRepository.findAllByDataRegistroBetween(inicioDaSemana, fimDaSemana, pageable)
-                .map(MovimentacaoEntity::convertEntidadeParaDto);
-    }
-
-
-    @Override
-    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesMensais(Pageable pageable) {
-        LocalDateTime agora = LocalDateTime.now();
-        LocalDateTime inicioDoMes = agora.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate().atStartOfDay();
-        LocalDateTime fimDoMes = agora.with(TemporalAdjusters.lastDayOfMonth()).toLocalDate().atTime(23, 59);
-
-        return movimentacaoRepository.findAllByDataRegistroBetween(inicioDoMes, fimDoMes, pageable)
-                .map(MovimentacaoEntity::convertEntidadeParaDto);
-    }
 
     @Override
     public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable) {
@@ -172,53 +123,12 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
     }
 
     @Override
-    public BigDecimal calcularSomaValorPorTipoEData(String tipo, LocalDateTime start, LocalDateTime end) {
-        return movimentacaoRepository.calcularSomaValorPorTipoEData(tipo, start, end);
+    public Page<MovimentacaoDetalhesDTO> buscarPorTipoECategoria(String tipo, String categoria, Pageable pageable) {
+        Page<MovimentacaoEntity> page = movimentacaoRepository.findByTipoAndCategoria(tipo, categoria, pageable);
+        return page.map(MovimentacaoEntity::convertEntidadeParaDto);
     }
 
-    @Override
-    public Integer calcularSomaQuantidadePorTipoEData(String tipo, LocalDateTime inicio, LocalDateTime fim) {
-        return movimentacaoRepository.calcularSomaQuantidadePorTipoEData(tipo, inicio, fim);
-    }
 
-    @Override
-    public RelatorioSemanalEntradasDTO calcularRelatorioSemanalEntradas() {
-        LocalDateTime inicioDaSemana = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).toLocalDate().atStartOfDay();
-        LocalDateTime fimDaSemana = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).toLocalDate().atTime(23, 59);
-
-        BigDecimal somaValorEntradas = calcularSomaValorPorTipoEData("E", inicioDaSemana, fimDaSemana);
-        somaValorEntradas = somaValorEntradas != null ? somaValorEntradas : BigDecimal.ZERO;
-
-        Integer somaQuantidadeEntradas = calcularSomaQuantidadePorTipoEData("E", inicioDaSemana, fimDaSemana);
-        somaQuantidadeEntradas = somaQuantidadeEntradas != null ? somaQuantidadeEntradas : 0;
-
-        return new RelatorioSemanalEntradasDTO(somaQuantidadeEntradas, somaValorEntradas);
-    }
-
-    @Override
-    public RelatorioSemanalSaidasDTO calcularRelatorioSemanalSaidas() {
-        LocalDateTime inicioDaSemana = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).toLocalDate().atStartOfDay();
-        LocalDateTime fimDaSemana = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).toLocalDate().atTime(23, 59);
-
-        BigDecimal somaValorSaidas = calcularSomaValorPorTipoEData("S", inicioDaSemana, fimDaSemana);
-        somaValorSaidas = somaValorSaidas != null ? somaValorSaidas : BigDecimal.ZERO;
-
-        Integer somaQuantidadeSaidas = calcularSomaQuantidadePorTipoEData("S", inicioDaSemana, fimDaSemana);
-        somaQuantidadeSaidas = somaQuantidadeSaidas != null ? somaQuantidadeSaidas : 0;
-
-        return new RelatorioSemanalSaidasDTO(somaQuantidadeSaidas, somaValorSaidas);
-    }
-
-    @Override
-    public RelatorioSemanalSaldoDTO calcularRelatorioSemanalSaldo() {
-        RelatorioSemanalEntradasDTO relatorioEntradas = calcularRelatorioSemanalEntradas();
-        RelatorioSemanalSaidasDTO relatorioSaidas = calcularRelatorioSemanalSaidas();
-
-        Integer saldoQuantidade = relatorioEntradas.getSomaQuantidadeEntradas() - relatorioSaidas.getSomaQuantidadeSaidas();
-        BigDecimal saldoValor = relatorioEntradas.getSomaValorEntradas().subtract(relatorioSaidas.getSomaValorSaidas());
-
-        return new RelatorioSemanalSaldoDTO(saldoQuantidade, saldoValor);
-    }
 
 
 }

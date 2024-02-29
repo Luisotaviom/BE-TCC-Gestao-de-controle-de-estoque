@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
 @CrossOrigin(origins = "*")
@@ -72,50 +71,18 @@ public class MovimentacaoController {
         return ResponseEntity.ok((MovimentacaoDTO) movimentacoes);
     }
 
-    @GetMapping("/buscarPorTipo")
-    public ResponseEntity<Page<MovimentacaoDTO>> listMovimentacoesPorTipo(
+    @GetMapping("/buscarTipoCategoria")
+    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarTipoDataCategoria(
             @RequestParam(required = false) String tipo,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorTipo(tipo, pageable);
-
-        return ResponseEntity.ok(movimentacoes);
-    }
-
-    @GetMapping("/buscarPorCategoria")
-    public ResponseEntity<Page<MovimentacaoDetalhesDTO>> listMovimentacoesPorCategoria(
             @RequestParam(required = false) String categoria,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<MovimentacaoDetalhesDTO> movimentacoes = movimentacaoService.buscarPorCategoria(categoria, pageable);
-
-        return ResponseEntity.ok(movimentacoes);
-    }
-
-    @GetMapping("/buscarPorData")
-    public ResponseEntity<Page<MovimentacaoDTO>> buscarPorData(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
             Pageable pageable) {
 
-        Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorIntervaloDeData(start, end, pageable);
+        Page<MovimentacaoDetalhesDTO> movimentacoes = movimentacaoService.buscarPorTipoECategoriaEData(tipo, categoria, pageable);
         return ResponseEntity.ok(movimentacoes);
     }
 
-    @GetMapping("/buscar")
-    public ResponseEntity<Page<MovimentacaoDTO>> buscarMovimentacoes(
-            @RequestParam(required = false) String tipo,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
-            Pageable pageable) {
 
-        Page<MovimentacaoDTO> movimentacoes = movimentacaoService.buscarPorTipoEData(tipo, start, end, pageable);
-        return ResponseEntity.ok(movimentacoes);
-    }
+
 
     @GetMapping("/relatorio/semanal")
     public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarMovimentacoesSemanais(
@@ -147,19 +114,5 @@ public class MovimentacaoController {
     }
 
 
-
-    @GetMapping("/calcularRelatorioSemanal")
-    public ResponseEntity<?> calcularRelatorioSemanal(@RequestParam(required = false) String tipo) {
-        if ("E".equals(tipo)) {
-            RelatorioSemanalEntradasDTO relatorioEntradas = movimentacaoService.calcularRelatorioSemanalEntradas();
-            return ResponseEntity.ok(relatorioEntradas);
-        } else if ("S".equals(tipo)) {
-            RelatorioSemanalSaidasDTO relatorioSaidas = movimentacaoService.calcularRelatorioSemanalSaidas();
-            return ResponseEntity.ok(relatorioSaidas);
-        } else {
-            RelatorioSemanalSaldoDTO relatorioSaldo = movimentacaoService.calcularRelatorioSemanalSaldo();
-            return ResponseEntity.ok(relatorioSaldo);
-        }
-    }
 
 }
