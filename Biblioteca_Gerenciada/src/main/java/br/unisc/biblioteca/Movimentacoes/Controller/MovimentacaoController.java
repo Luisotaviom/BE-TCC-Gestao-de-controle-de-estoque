@@ -86,6 +86,7 @@ public class MovimentacaoController {
 
     @GetMapping("/relatorio/semanal")
     public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarMovimentacoesSemanais(
+            @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(required = false) String tipo,
             @RequestParam(required = false) String categoria,
             Pageable pageable) {
@@ -93,7 +94,7 @@ public class MovimentacaoController {
         LocalDateTime start = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
         LocalDateTime end = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).toLocalDate().atTime(23, 59, 59);
 
-        Page<MovimentacaoDetalhesDTO> page = movimentacaoService.buscarMovimentacoesPorTipoECategoriaEData(tipo, categoria, start, end, pageable);
+        Page<MovimentacaoDetalhesDTO> page = movimentacaoService.buscaNomeETipoECategoriaEData(nome, tipo, categoria, start, end, pageable);
 
         return ResponseEntity.ok(page);
     }
@@ -101,6 +102,7 @@ public class MovimentacaoController {
 
     @GetMapping("/relatorio/mensal")
     public ResponseEntity<Page<MovimentacaoDetalhesDTO>> buscarMovimentacoesMensais(
+            @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(required = false) String tipo,
             @RequestParam(required = false) String categoria,
             Pageable pageable) {
@@ -108,7 +110,7 @@ public class MovimentacaoController {
         LocalDateTime start = LocalDateTime.now().with(TemporalAdjusters.firstDayOfMonth()).toLocalDate().atStartOfDay();
         LocalDateTime end = LocalDateTime.now().with(TemporalAdjusters.lastDayOfMonth()).toLocalDate().atTime(23, 59, 59);
 
-        Page<MovimentacaoDetalhesDTO> page = movimentacaoService.buscarMovimentacoesPorTipoECategoriaEData(tipo, categoria, start, end, pageable);
+        Page<MovimentacaoDetalhesDTO> page = movimentacaoService.buscaNomeETipoECategoriaEData(nome, tipo, categoria, start, end, pageable);
 
         return ResponseEntity.ok(page);
     }

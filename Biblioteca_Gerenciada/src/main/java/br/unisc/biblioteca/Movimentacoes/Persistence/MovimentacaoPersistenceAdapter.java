@@ -112,9 +112,10 @@ public class MovimentacaoPersistenceAdapter implements MovimentacaoPersistence {
 
 
     @Override
-    public Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable) {
+    public Page<MovimentacaoDetalhesDTO> buscaNomeETipoECategoriaEData(String nome, String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable) {
 
-        return movimentacaoRepository.buscarMovimentacoesPorTipoECategoriaEData(
+        return movimentacaoRepository.buscaNomeETipoECategoriaEData(
+                nome,
                 tipo,
                 categoria,
                 start,

@@ -26,7 +26,7 @@ public interface MovimentacaoPersistence {
     Page<MovimentacaoDetalhesDTO> buscarPorTipoECategoria(String tipo, String categoria, Pageable pageable);
 
 
-    Page<MovimentacaoDetalhesDTO> buscarMovimentacoesPorTipoECategoriaEData(String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable);
+    Page<MovimentacaoDetalhesDTO> buscaNomeETipoECategoriaEData(String nome, String tipo, String categoria, LocalDateTime start, LocalDateTime end, Pageable pageable);
 
 
 }

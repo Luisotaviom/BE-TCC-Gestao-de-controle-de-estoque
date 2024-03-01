@@ -28,9 +28,8 @@ public interface MovimentacaoRepository extends JpaRepository<MovimentacaoEntity
 
     Page<MovimentacaoEntity> findAll(Pageable pageable);
 
-    @Query("SELECT m FROM MovimentacaoEntity m JOIN m.produto p WHERE (:tipo IS NULL OR m.tipo = :tipo) AND (:categoria IS NULL OR p.categoria = :categoria) AND m.dataRegistro BETWEEN :inicio AND :fim")
-    Page<MovimentacaoEntity> buscarMovimentacoesPorTipoECategoriaEData(@Param("tipo") String tipo, @Param("categoria") String categoria, @Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim, Pageable pageable);
-
+    @Query("SELECT m FROM MovimentacaoEntity m JOIN m.produto p JOIN m.fornecedor f WHERE (:nome IS NULL OR f.nome LIKE %:nome%) AND (:tipo IS NULL OR m.tipo = :tipo) AND (:categoria IS NULL OR p.categoria = :categoria) AND m.dataRegistro BETWEEN :inicio AND :fim")
+    Page<MovimentacaoEntity> buscaNomeETipoECategoriaEData(@Param("nome") String nome, @Param("tipo") String tipo, @Param("categoria") String categoria, @Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim, Pageable pageable);
 
 
 
