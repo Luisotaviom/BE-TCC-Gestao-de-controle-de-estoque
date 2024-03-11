@@ -36,12 +36,16 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
+
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/Fornecedores").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/Fornecedores/buscarPorStatus").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/Produtos").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/Fornecedores").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/Produtos/fornecedor/{id}/produto").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/Movimentacoes").permitAll()
+
+                        .requestMatchers(HttpMethod.PUT, "/Produtos/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/Fornecedores/{id}").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.GET, "/auth/userInfo").authenticated()
                         .requestMatchers(HttpMethod.GET, "/Movimentacoes").permitAll()
                         .requestMatchers(HttpMethod.GET, "/Fornecedores").permitAll()
